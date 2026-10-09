@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <!-- Evita que Google indexe la réplica como si fuera el sitio oficial -->
+  <meta name="robots" content="noindex, nofollow">
+  <title>Portal clientes | Belltech (Demo)</title>
+  <!-- Página en subcarpeta: los recursos se cargan con ../ -->
+  <link rel="stylesheet" href="../assets/css/estilos.css?v=5">
+  <link rel="stylesheet" href="../assets/css/formularios.css?v=1">
+</head>
+<body>
+  <!-- Banner DEMO, encabezado, pie y burbuja del agente IA los inserta assets/js/comun.js -->
+  <!-- El login y el panel los maneja assets/js/portal.js -->
+
+  <main>
+
+    <!-- ===================== HERO ===================== -->
+    <section class="hero" style="padding:56px 0;">
+      <div class="contenedor">
+        <span class="seccion__antetitulo" style="color:#ffffff;opacity:.85;">Portal clientes</span>
+        <h1 id="portal-titulo">Portal clientes</h1>
+        <p id="portal-bajada"></p>
+      </div>
+    </section>
+
+    <!-- ===================== VISTA: LOGIN ===================== -->
+    <div id="vista-login" hidden>
+      <section class="seccion">
+        <div class="contenedor">
+          <div class="grilla" style="grid-template-columns: 1fr 1fr; align-items:start;">
+
+            <!-- Formulario de ingreso -->
+            <div class="tarjeta">
+              <h2 style="font-size:1.5rem;">Ingresar</h2>
+              <form id="form-login" class="formulario" novalidate>
+                <div class="campo">
+                  <label for="email">Email</label>
+                  <input id="email" name="email" type="email" autocomplete="username" required>
+                </div>
+                <div class="campo">
+                  <label for="clave">Clave</label>
+                  <input id="clave" name="clave" type="password" autocomplete="current-password" required>
+                </div>
+
+                <div id="login-mensaje" class="mensaje" role="status" aria-live="polite"></div>
+
+                <div class="formulario__acciones">
+                  <button id="login-enviar" class="btn btn--primario" type="submit">Ingresar</button>
+                  <p class="formulario__legal">Sitio de demostración: usuarios ficticios.</p>
+                </div>
+              </form>
+            </div>
+
+            <!-- Usuarios de prueba -->
+            <div class="tarjeta" style="background:var(--color-fondo-suave);">
+              <h3>Usuarios de prueba</h3>
+              <p style="font-size:.9rem;color:var(--color-texto-suave);">Hacé clic en un usuario para completar el ingreso.</p>
+              <div id="usuarios-demo" style="display:grid;gap:10px;">
+                <p>Cargando…</p>
+              </div>
+            </div>
+
+          </div>
+        </div>
+      </section>
+    </div>
+
+    <!-- ===================== VISTA: PANEL ===================== -->
+    <div id="vista-panel" hidden></div>
+
+  </main>
+
+  <!-- Orden obligatorio: primero comun.js, después portal.js -->
+  <script src="../assets/js/comun.js?v=6"></script>
+  <script src="../assets/js/portal.js?v=1"></script>
+</body>
+</html>
