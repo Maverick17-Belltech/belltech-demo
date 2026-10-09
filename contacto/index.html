@@ -1,0 +1,260 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <!-- Evita que Google indexe la réplica como si fuera el sitio oficial -->
+  <meta name="robots" content="noindex, nofollow">
+  <title>Pedí una demo | Belltech (Demo)</title>
+  <!-- Página en subcarpeta: los recursos se cargan con ../ -->
+  <link rel="stylesheet" href="../assets/css/estilos.css?v=5">
+  <link rel="stylesheet" href="../assets/css/formularios.css?v=1">
+</head>
+<body>
+  <!-- Banner DEMO, encabezado, pie y burbuja del agente IA los inserta assets/js/comun.js -->
+
+  <main>
+
+    <!-- ===================== HERO ===================== -->
+    <section class="hero" style="padding:64px 0;">
+      <div class="contenedor">
+        <span class="seccion__antetitulo" style="color:#ffffff;opacity:.85;">Contacto</span>
+        <h1>Pedí una demo personalizada</h1>
+        <p>Contanos qué necesitás y un especialista de Belltech te contacta para mostrarte NICE en acción, aplicado a tu negocio.</p>
+      </div>
+    </section>
+
+    <!-- ===================== FORMULARIO + INFO ===================== -->
+    <section class="seccion">
+      <div class="contenedor">
+        <div class="grilla" style="grid-template-columns: 1.6fr 1fr; align-items:start;">
+
+          <!-- Formulario -->
+          <div class="tarjeta">
+            <h2 style="font-size:1.5rem;">Tus datos</h2>
+
+            <form id="form-contacto" class="formulario" novalidate>
+              <div class="formulario__fila">
+                <div class="campo">
+                  <label for="nombre">Nombre y apellido<span class="obligatorio">*</span></label>
+                  <input id="nombre" name="nombre" type="text" autocomplete="name" required>
+                </div>
+                <div class="campo">
+                  <label for="empresa">Empresa<span class="obligatorio">*</span></label>
+                  <input id="empresa" name="empresa" type="text" autocomplete="organization" required>
+                </div>
+              </div>
+
+              <div class="formulario__fila">
+                <div class="campo">
+                  <label for="email">Email corporativo<span class="obligatorio">*</span></label>
+                  <input id="email" name="email" type="email" autocomplete="email" required>
+                </div>
+                <div class="campo">
+                  <label for="telefono">Teléfono</label>
+                  <input id="telefono" name="telefono" type="tel" autocomplete="tel">
+                </div>
+              </div>
+
+              <div class="formulario__fila">
+                <div class="campo">
+                  <label for="pais">País<span class="obligatorio">*</span></label>
+                  <select id="pais" name="pais" required>
+                    <option value="">Elegí un país</option>
+                  </select>
+                </div>
+                <div class="campo">
+                  <label for="producto">Producto de interés<span class="obligatorio">*</span></label>
+                  <select id="producto" name="producto" required>
+                    <option value="">Cargando productos…</option>
+                  </select>
+                </div>
+              </div>
+
+              <div class="campo">
+                <label for="mensaje">¿Qué te gustaría ver en la demo?</label>
+                <textarea id="mensaje" name="mensaje" placeholder="Ej.: automatizar la atención por WhatsApp, integrar con nuestro CRM, IVR conversacional…"></textarea>
+              </div>
+
+              <div class="campo">
+                <label for="horario">Horario preferido para la reunión</label>
+                <select id="horario" name="horario">
+                  <option value="">Indistinto</option>
+                  <option value="manana">Mañana (9 a 12 h)</option>
+                  <option value="mediodia">Mediodía (12 a 15 h)</option>
+                  <option value="tarde">Tarde (15 a 18 h)</option>
+                </select>
+              </div>
+
+              <div id="form-mensaje" class="mensaje" role="status" aria-live="polite"></div>
+
+              <div class="formulario__acciones">
+                <button id="form-enviar" class="btn btn--acento" type="submit">Solicitar demo</button>
+                <p class="formulario__legal">Sitio de demostración: usá datos ficticios.</p>
+              </div>
+            </form>
+          </div>
+
+          <!-- Información lateral -->
+          <div style="display:grid;gap:24px;">
+            <div class="tarjeta">
+              <h3>¿Qué pasa después?</h3>
+              <ol style="padding-left:18px;margin:0;">
+                <li>Un especialista revisa tu solicitud.</li>
+                <li>Te contactamos para coordinar la reunión.</li>
+                <li>Te mostramos NICE aplicado a tu caso.</li>
+              </ol>
+            </div>
+
+            <div class="tarjeta" style="background:var(--color-primario);color:#ffffff;border:none;">
+              <h3 style="color:#ffffff;">¿Preferís hablar ya?</h3>
+              <p>Bella, nuestra asesora IA, responde tus preguntas sobre CXone y Cognigy y puede agendar la reunión por vos.</p>
+              <a class="btn btn--primario" href="#" data-accion="abrir-chat">Hablar con Bella</a>
+            </div>
+
+            <div class="tarjeta">
+              <h3>¿Ya sos cliente?</h3>
+              <p>Ingresá al portal para ver tus servicios, consumos y reportes.</p>
+              <a class="btn btn--secundario btn--chico" href="../portal/">Ir al Portal clientes</a>
+            </div>
+          </div>
+
+        </div>
+      </div>
+    </section>
+
+  </main>
+
+  <!-- Página en subcarpeta: el script se carga con ../ -->
+  <script src="../assets/js/comun.js?v=5"></script>
+  <script>
+    (function () {
+      'use strict';
+
+      var BD = window.BelltechDemo;
+
+      /* ---------- Configuración ----------
+         URL del webhook de n8n que recibe los leads.
+         Mientras esté vacía, el formulario solo simula el envío. */
+      var WEBHOOK_LEADS = '';
+
+      var form = document.getElementById('form-contacto');
+      var selPais = document.getElementById('pais');
+      var selProducto = document.getElementById('producto');
+      var caja = document.getElementById('form-mensaje');
+      var boton = document.getElementById('form-enviar');
+
+      /* ---------- Países (de comun.js) ---------- */
+      BD.paises.concat(['Otro']).forEach(function (p) {
+        var op = document.createElement('option');
+        op.value = p;
+        op.textContent = p;
+        selPais.appendChild(op);
+      });
+
+      /* ---------- Productos (del catálogo) ----------
+         Si la URL trae ?producto=cognigy, queda preseleccionado. */
+      var preseleccion = new URLSearchParams(window.location.search).get('producto');
+
+      BD.cargarCatalogo()
+        .then(function (catalogo) {
+          selProducto.innerHTML = '<option value="">Elegí un producto</option>';
+          BD.listarProductos(catalogo).forEach(function (it) {
+            var op = document.createElement('option');
+            op.value = it.marca.id + '/' + it.producto.id;
+            op.textContent = it.producto.nombre;
+            if (it.producto.id === preseleccion) op.selected = true;
+            selProducto.appendChild(op);
+          });
+          var otro = document.createElement('option');
+          otro.value = 'varios';
+          otro.textContent = 'Más de uno / No estoy seguro';
+          selProducto.appendChild(otro);
+        })
+        .catch(function () {
+          selProducto.innerHTML =
+            '<option value="">Elegí un producto</option>' +
+            '<option value="varios">Más de uno / No estoy seguro</option>';
+        });
+
+      /* ---------- Mensajes ---------- */
+      function mostrarMensaje(tipo, texto) {
+        caja.className = 'mensaje mensaje--visible mensaje--' + tipo;
+        caja.textContent = texto;
+      }
+
+      /* ---------- Validación ---------- */
+      function validar() {
+        var valido = true;
+        Array.prototype.forEach.call(form.querySelectorAll('[required]'), function (campo) {
+          var contenedor = campo.closest('.campo');
+          var ok = campo.value.trim() !== '' && campo.checkValidity();
+          contenedor.classList.toggle('campo--error', !ok);
+          if (!ok) valido = false;
+        });
+        return valido;
+      }
+
+      /* ---------- Envío ---------- */
+      form.addEventListener('submit', function (e) {
+        e.preventDefault();
+
+        if (!validar()) {
+          mostrarMensaje('error', 'Revisá los campos marcados: son obligatorios o tienen un formato inválido.');
+          return;
+        }
+
+        var datos = {
+          nombre: form.nombre.value.trim(),
+          empresa: form.empresa.value.trim(),
+          email: form.email.value.trim(),
+          telefono: form.telefono.value.trim(),
+          pais: form.pais.value,
+          producto: form.producto.value,
+          mensaje: form.mensaje.value.trim(),
+          horario: form.horario.value,
+          origen: 'formulario-web',
+          pagina: window.location.href,
+          fecha: new Date().toISOString()
+        };
+
+        boton.disabled = true;
+        boton.textContent = 'Enviando…';
+
+        var envio = WEBHOOK_LEADS
+          ? fetch(WEBHOOK_LEADS, {
+              method: 'POST',
+              headers: { 'Content-Type': 'application/json' },
+              body: JSON.stringify(datos)
+            }).then(function (r) {
+              if (!r.ok) throw new Error('Error ' + r.status);
+            })
+          : new Promise(function (resolver) {
+              console.info('[Demo] Lead simulado (sin webhook configurado):', datos);
+              setTimeout(resolver, 800);
+            });
+
+        envio
+          .then(function () {
+            mostrarMensaje(
+              'ok',
+              '¡Gracias, ' + datos.nombre.split(' ')[0] + '! Recibimos tu solicitud. Un especialista de Belltech te va a contactar a ' + datos.email + '.'
+            );
+            form.reset();
+            Array.prototype.forEach.call(form.querySelectorAll('.campo--error'), function (c) {
+              c.classList.remove('campo--error');
+            });
+          })
+          .catch(function (err) {
+            console.error(err);
+            mostrarMensaje('error', 'No pudimos enviar tu solicitud. Probá de nuevo o hablá con Bella.');
+          })
+          .then(function () {
+            boton.disabled = false;
+            boton.textContent = 'Solicitar demo';
+          });
+      });
+    })();
+  </script>
+</body>
+</html>
