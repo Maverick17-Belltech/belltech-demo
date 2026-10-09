@@ -1,0 +1,16 @@
+[
+  {
+    "contacto": "Lucía Fernández",
+    "email": "lucia.fernandez@bancoandino.example",
+    "clave": "Demo2026!",
+    "cargo": "Gerenta de Canales y Experiencia",
+    "activo": true
+  },
+  {
+    "contacto": "Martín Gómez",
+    "email": "martin.gomez@bancoandino.example",
+    "clave": "Demo2026!",
+    "cargo": "Jefe de Contact Center",
+    "activo": true
+  }
+]
