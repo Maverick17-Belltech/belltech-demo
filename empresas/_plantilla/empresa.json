@@ -1,0 +1,16 @@
+{
+  "id": "plantilla",
+  "nombre": "Nombre Completo de la Empresa S.A.",
+  "nombreCorto": "Empresa",
+  "industria": "Banca",
+  "pais": "Argentina",
+  "logo": "logo.png",
+  "colores": {
+    "primario": "#0a2a5e",
+    "secundario": "#00a3e0"
+  },
+  "cognigy": {
+    "etiquetaConocimiento": "empresa-plantilla"
+  },
+  "activa": true
+}
