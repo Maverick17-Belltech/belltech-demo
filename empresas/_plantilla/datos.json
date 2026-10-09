@@ -1,0 +1,41 @@
+{
+  "resumen": {
+    "clienteDesde": "2020",
+    "ejecutivoCuenta": "Nombre del Ejecutivo Belltech",
+    "emailEjecutivo": "ejecutivo@demo-belltech.com",
+    "estadoGeneral": "Activo"
+  },
+  "serviciosContratados": [
+    {
+      "nombre": "NICE CXone",
+      "categoria": "Experiencia del Cliente",
+      "estado": "Activo",
+      "desde": "2022-03-01",
+      "detalle": "Descripción breve del servicio contratado."
+    }
+  ],
+  "proyectos": [
+    {
+      "nombre": "Nombre del proyecto",
+      "estado": "En curso",
+      "avance": 50,
+      "fechaFin": "2026-12-15"
+    }
+  ],
+  "tickets": [
+    {
+      "numero": "TK-0001",
+      "asunto": "Asunto del ticket",
+      "estado": "Abierto",
+      "prioridad": "Media",
+      "fecha": "2026-10-01"
+    }
+  ],
+  "oportunidades": [
+    {
+      "producto": "NICE Cognigy",
+      "motivo": "Por qué le serviría a esta empresa.",
+      "beneficio": "Beneficio esperado en una frase."
+    }
+  ]
+}
