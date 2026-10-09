@@ -1,5 +1,5 @@
 {
   "_descripcion": "Lista de empresas activas en la demo. Solo las empresas listadas acá pueden iniciar sesión. El valor debe ser igual al nombre de la carpeta dentro de empresas/.",
-  "version": 1,
-  "empresas": []
+  "version": 2,
+  "empresas": ["bancoandino", "energassur"]
 }
