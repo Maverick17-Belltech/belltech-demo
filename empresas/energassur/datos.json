@@ -1,0 +1,102 @@
+{
+  "_nota": "Datos ficticios para demostración. No corresponden a ninguna empresa real.",
+  "moneda": "USD",
+  "resumen": {
+    "clienteDesde": "2023",
+    "ejecutivoCuenta": "Diego Paredes",
+    "emailEjecutivo": "diego.paredes@belltech.example",
+    "estadoGeneral": "Activo",
+    "segmento": "Servicios públicos"
+  },
+  "serviciosContratados": [
+    {
+      "marca": "nice",
+      "producto": "cxone",
+      "nombre": "NICE CXone",
+      "plan": "Plan Voz + Digital",
+      "detalle": "Contact center en la nube para atención comercial, reclamos y emergencias.",
+      "licencias": 50,
+      "unidadLicencia": "agentes",
+      "estado": "Activo",
+      "desde": "2023-02-01",
+      "renovacion": "2027-02-01",
+      "costoMensual": 6000
+    }
+  ],
+  "consumoMes": {
+    "periodo": "2026-10",
+    "corte": "2026-10-09",
+    "items": [
+      { "producto": "cxone", "metrica": "Minutos de voz", "unidad": "min", "consumo": 43433, "incluido": 160000 },
+      { "producto": "cxone", "metrica": "Interacciones digitales", "unidad": "interacciones", "consumo": 10967, "incluido": 40000 },
+      { "producto": "cxone", "metrica": "Agentes conectados (pico)", "unidad": "agentes", "consumo": 47, "incluido": 50 }
+    ]
+  },
+  "historial": [
+    { "periodo": "2025-11", "minutosVoz": 150716, "interaccionesDigitales": 28688, "conversacionesIA": 0, "gasto": 8095 },
+    { "periodo": "2025-12", "minutosVoz": 143394, "interaccionesDigitales": 29700, "conversacionesIA": 0, "gasto": 8018 },
+    { "periodo": "2026-01", "minutosVoz": 152705, "interaccionesDigitales": 30974, "conversacionesIA": 0, "gasto": 8142 },
+    { "periodo": "2026-02", "minutosVoz": 147212, "interaccionesDigitales": 32072, "conversacionesIA": 0, "gasto": 8087 },
+    { "periodo": "2026-03", "minutosVoz": 149297, "interaccionesDigitales": 31751, "conversacionesIA": 0, "gasto": 8109 },
+    { "periodo": "2026-04", "minutosVoz": 154415, "interaccionesDigitales": 33656, "conversacionesIA": 0, "gasto": 8190 },
+    { "periodo": "2026-05", "minutosVoz": 146161, "interaccionesDigitales": 33850, "conversacionesIA": 0, "gasto": 8092 },
+    { "periodo": "2026-06", "minutosVoz": 150377, "interaccionesDigitales": 35482, "conversacionesIA": 0, "gasto": 8159 },
+    { "periodo": "2026-07", "minutosVoz": 153441, "interaccionesDigitales": 34062, "conversacionesIA": 0, "gasto": 8182 },
+    { "periodo": "2026-08", "minutosVoz": 157202, "interaccionesDigitales": 34047, "conversacionesIA": 0, "gasto": 8227 },
+    { "periodo": "2026-09", "minutosVoz": 148771, "interaccionesDigitales": 36925, "conversacionesIA": 0, "gasto": 8155 },
+    { "periodo": "2026-10", "minutosVoz": 43433, "interaccionesDigitales": 10967, "conversacionesIA": 0, "gasto": 6631, "parcial": true }
+  ],
+  "facturas": [
+    { "numero": "FC-A-0002-00001877", "periodo": "2026-09", "emision": "2026-10-01", "vencimiento": "2026-10-15", "importe": 8155, "estado": "Pendiente" },
+    { "numero": "FC-A-0002-00001833", "periodo": "2026-08", "emision": "2026-09-01", "vencimiento": "2026-09-15", "importe": 8227, "estado": "Pagada" },
+    { "numero": "FC-A-0002-00001790", "periodo": "2026-07", "emision": "2026-08-01", "vencimiento": "2026-08-15", "importe": 8182, "estado": "Pagada" },
+    { "numero": "FC-A-0002-00001746", "periodo": "2026-06", "emision": "2026-07-01", "vencimiento": "2026-07-15", "importe": 8159, "estado": "Pagada" },
+    { "numero": "FC-A-0002-00001702", "periodo": "2026-05", "emision": "2026-06-01", "vencimiento": "2026-06-15", "importe": 8092, "estado": "Pagada" },
+    { "numero": "FC-A-0002-00001659", "periodo": "2026-04", "emision": "2026-05-01", "vencimiento": "2026-05-15", "importe": 8190, "estado": "Pagada" }
+  ],
+  "reportes": [
+    {
+      "id": "cc-2026-09",
+      "producto": "cxone",
+      "titulo": "Desempeño del contact center",
+      "periodo": "2026-09",
+      "descripcion": "Indicadores principales de la operación de atención.",
+      "indicadores": [
+        { "nombre": "Nivel de servicio (80/20)", "valor": "71%" },
+        { "nombre": "Tiempo medio de atención (AHT)", "valor": "6 min 10 s" },
+        { "nombre": "Tasa de abandono", "valor": "8,2%" },
+        { "nombre": "Satisfacción (CSAT)", "valor": "3,8 / 5" }
+      ]
+    },
+    {
+      "id": "motivos-2026-09",
+      "producto": "cxone",
+      "titulo": "Motivos de contacto",
+      "periodo": "2026-09",
+      "descripcion": "Principales motivos por los que contactan los clientes.",
+      "indicadores": [
+        { "nombre": "Consulta de factura y saldo", "valor": "38%" },
+        { "nombre": "Reclamo por falta de servicio", "valor": "24%" },
+        { "nombre": "Alta, baja o cambio de titular", "valor": "17%" },
+        { "nombre": "Otros", "valor": "21%" }
+      ]
+    }
+  ],
+  "tickets": [
+    { "numero": "TK-2026-1172", "asunto": "Ajuste de horarios en el flujo de atención de emergencias", "estado": "En curso", "prioridad": "Alta", "fecha": "2026-10-03" }
+  ],
+  "oportunidades": [
+    {
+      "producto": "cognigy",
+      "titulo": "Agente de IA con NICE Cognigy",
+      "motivo": "El 38% de los contactos son consultas de factura y saldo, y el abandono llega al 8,2%.",
+      "beneficio": "Un agente de IA puede resolver esas consultas al instante, 24/7, y liberar a los agentes para los reclamos."
+    },
+    {
+      "producto": "cxone",
+      "titulo": "Workforce Management",
+      "motivo": "El nivel de servicio está por debajo del objetivo en horas pico.",
+      "beneficio": "Planificar turnos según la demanda real para mejorar la atención sin sumar agentes."
+    }
+  ]
+}
