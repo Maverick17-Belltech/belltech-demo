@@ -4,7 +4,8 @@
    Inserta: banner DEMO, encabezado con menú, pie de página
    y la burbuja del agente IA.
    También expone utilidades de datos (cargarJSON, catálogo),
-   y la sesión del portal de clientes (iniciar, consultar, cerrar).
+   la sesión del portal de clientes (iniciar, consultar, cerrar)
+   y carga la conexión con Bella (assets/js/bella-webchat.js).
    Cada página solo tiene que incluir este script al final del <body>.
    ========================================================= */
 (function () {
@@ -26,6 +27,12 @@
   BD.raiz = srcScript.replace(/assets\/js\/comun\.js.*$/, '');
 
   /* ---------- Configuración general ---------- */
+
+  // Versión de los scripts que carga comun.js (subirla cuando cambien, para evitar la caché)
+  BD.versiones = {
+    bellaWebchat: '1'
+  };
+
   // Logos alojados en el propio repo: belltech-demo/assets/img/
   BD.logo = {
     color: BD.raiz + 'assets/img/logo-belltech.svg',
@@ -157,7 +164,7 @@
     }
   }
 
-  // Aviso para otras partes del sitio (por ejemplo, el Webchat en el H5)
+  // Aviso para otras partes del sitio (por ejemplo, el Webchat)
   function avisarCambioSesion() {
     try {
       window.dispatchEvent(new CustomEvent('belltechdemo:sesion', { detail: BD.obtenerSesion() }));
@@ -437,7 +444,7 @@
     document.body.appendChild(burbuja);
   }
 
-  // Para el H5: ocultar la burbuja mientras el Webchat está abierto
+  // Ocultar o mostrar la burbuja mientras el Webchat está abierto
   BD.ocultarBurbuja = function () {
     var b = document.getElementById('burbuja-agente');
     if (b) b.classList.add('burbuja-agente--oculta');
@@ -466,9 +473,10 @@
     }, 3500);
   };
 
-  /* ---------- Botones "Hablá con nuestro agente IA" ----------
+  /* ---------- Botones "Hablá con Bella" ----------
      Cualquier elemento con data-accion="abrir-chat" abre el Webchat.
-     Hasta el H5 (Webchat), muestra un aviso de "próximamente". */
+     BD.abrirChat la define assets/js/bella-webchat.js. Si ese archivo
+     no cargó, se muestra un aviso. */
   function activarAccionesChat() {
     document.addEventListener('click', function (e) {
       var disparador = e.target.closest('[data-accion="abrir-chat"]');
@@ -477,13 +485,20 @@
       if (typeof BD.abrirChat === 'function') {
         BD.abrirChat();
       } else {
-        var s = BD.obtenerSesion();
-        BD.mostrarAviso(
-          (s ? BD.primerNombre(s.nombre) + ', ' : '') +
-          BD.agente.nombre + ', nuestra ' + BD.agente.rol + ', estará disponible muy pronto en este sitio.'
-        );
+        BD.mostrarAviso(BD.agente.nombre + ' no está disponible en este momento. Probá de nuevo en unos minutos.');
       }
     });
+  }
+
+  /* ---------- Conexión con Bella (Webchat de Cognigy) ----------
+     Se carga en todas las páginas desde un solo lugar. */
+  function cargarBellaWebchat() {
+    if (document.getElementById('script-bella-webchat')) return;
+    var s = document.createElement('script');
+    s.id = 'script-bella-webchat';
+    s.src = BD.raiz + 'assets/js/bella-webchat.js?v=' + BD.versiones.bellaWebchat;
+    s.async = true;
+    document.body.appendChild(s);
   }
 
   /* ---------- Inicio ---------- */
@@ -493,6 +508,7 @@
     insertarBurbujaAgente();
     activarAccionesChat();
     completarConCatalogo();
+    cargarBellaWebchat();
   }
 
   if (document.readyState === 'loading') {
