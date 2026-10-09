@@ -2,25 +2,59 @@
   "id": "cxone",
   "marca": "nice",
   "nombre": "NICE CXone",
-  "categoria": "Contact Center en la nube (CCaaS)",
-  "resumen": "Plataforma de contact center en la nube que unifica canales, gestión de la fuerza laboral, analítica e inteligencia artificial en una sola solución.",
+  "categoria": "Contact Center en la nube (CCaaS) · CXone Mpower",
+  "resumen": "La plataforma de contact center en la nube de NICE: unifica todos los canales, la gestión de la fuerza laboral, la analítica y la inteligencia artificial en una sola solución, para que agentes humanos y de IA trabajen juntos.",
   "beneficios": [
-    { "icono": "🌐", "titulo": "Omnicanalidad", "texto": "Voz, chat, email, mensajería y redes sociales en una única plataforma." },
-    { "icono": "☁️", "titulo": "100% en la nube", "texto": "Escalá según la demanda sin infraestructura propia." },
-    { "icono": "🤖", "titulo": "IA integrada", "texto": "Inteligencia artificial aplicada a la atención, la calidad y la gestión de agentes." }
+    { "icono": "🌐", "titulo": "Omnicanalidad real", "texto": "Voz, chat, email, mensajería y redes sociales en una única plataforma, con el historial del cliente siempre a mano." },
+    { "icono": "☁️", "titulo": "100% en la nube", "texto": "Escalá según la demanda, sin infraestructura propia y con actualizaciones continuas." },
+    { "icono": "🤖", "titulo": "IA en toda la operación", "texto": "Inteligencia artificial aplicada al autoservicio, a la asistencia de agentes, a la calidad y a la gestión." },
+    { "icono": "🤝", "titulo": "Humanos + IA", "texto": "Orquesta agentes humanos y agentes de IA en una misma operación." },
+    { "icono": "📊", "titulo": "Decisiones con datos", "texto": "Analítica en tiempo real e histórica de cada interacción y de cada agente." },
+    { "icono": "🔒", "titulo": "Escala empresarial", "texto": "Plataforma utilizada por miles de organizaciones en todo el mundo, con control de acceso por roles." }
   ],
   "funcionalidades": [
-    { "titulo": "Enrutamiento omnicanal", "texto": "Cada interacción llega al agente o al bot más adecuado." },
-    { "titulo": "Workforce Management", "texto": "Planificación de turnos y dotación según la demanda." },
-    { "titulo": "Analítica e informes", "texto": "Métricas en tiempo real e históricas de toda la operación." }
+    { "titulo": "Enrutamiento omnicanal (ACD)", "texto": "Cada interacción llega al agente o al bot más adecuado según habilidades, prioridad y contexto." },
+    { "titulo": "Canales digitales", "texto": "Chat, WhatsApp, mensajería, email y redes sociales gestionados desde un mismo escritorio." },
+    { "titulo": "IVR y diseño de flujos (Studio)", "texto": "Diseño de flujos de atención y de IVR para automatizar el autoservicio." },
+    { "titulo": "Agent desktop", "texto": "Un escritorio unificado para el agente, con contexto del cliente y herramientas integradas." },
+    { "titulo": "Copilot para agentes", "texto": "Asistencia con IA en tiempo real: sugerencias, resúmenes y próximas mejores acciones." },
+    { "titulo": "Autopilot y autoservicio", "texto": "Autoservicio inteligente para resolver consultas sin intervención humana." },
+    { "titulo": "Workforce Management (WFM)", "texto": "Pronóstico de demanda, planificación de turnos y gestión de la adherencia." },
+    { "titulo": "Grabación y Quality Management", "texto": "Grabación de interacciones y evaluación de calidad para mejorar el desempeño." },
+    { "titulo": "Interaction Analytics", "texto": "Análisis del 100% de las interacciones para detectar motivos de contacto, sentimiento y oportunidades." },
+    { "titulo": "Performance Management", "texto": "Tableros y gamificación para alinear al equipo con los objetivos del negocio." },
+    { "titulo": "Discador saliente", "texto": "Campañas salientes de voz y digitales gestionadas desde la misma plataforma." },
+    { "titulo": "Reportes y tableros", "texto": "Métricas en tiempo real e históricas de toda la operación del contact center." }
   ],
-  "casosDeUso": [],
-  "integraciones": ["NICE Cognigy", "CRM", "WhatsApp"],
+  "casosDeUso": [
+    { "titulo": "Banca y servicios financieros", "texto": "Atención omnicanal de consultas, reclamos y ventas, con grabación y calidad para cumplir normativas." },
+    { "titulo": "Seguros", "texto": "Gestión de siniestros, cotizaciones y renovaciones con enrutamiento por especialidad." },
+    { "titulo": "Retail y e-commerce", "texto": "Atención de pedidos, devoluciones y ventas en los canales que prefieren los clientes." },
+    { "titulo": "Servicios públicos y telecomunicaciones", "texto": "Gestión de picos de demanda, autoservicio de trámites y seguimiento de incidencias." }
+  ],
+  "integraciones": [
+    "NICE Cognigy (AI Agents)",
+    "CRM (Salesforce, Microsoft Dynamics, otros)",
+    "WhatsApp y mensajería",
+    "Microsoft Teams",
+    "APIs abiertas"
+  ],
   "demos": [
-    { "titulo": "Demo de CXone", "texto": "Próximamente vas a poder ver CXone en acción desde este sitio.", "tipo": "proximamente" }
+    { "titulo": "Preguntale a Bella sobre CXone", "texto": "Bella te explica qué es CXone, sus módulos y cómo se aplica en tu industria.", "tipo": "chat" },
+    { "titulo": "Demo en vivo de CXone", "texto": "Muy pronto vas a poder ver CXone funcionando desde este sitio: enrutamiento, escritorio del agente y tableros.", "tipo": "proximamente" }
   ],
-  "faq": [],
+  "faq": [
+    { "pregunta": "¿Qué es NICE CXone?", "respuesta": "Es la plataforma de contact center en la nube de NICE. Reúne canales de voz y digitales, gestión de la fuerza laboral, calidad, analítica e inteligencia artificial en una sola solución." },
+    { "pregunta": "¿Qué es CXone Mpower?", "respuesta": "Es la evolución de CXone con IA en el centro: suma agentes de IA, copilot para empleados, orquestación de agentes humanos y de IA, y workflows que conectan front, mid y back office." },
+    { "pregunta": "¿Necesito infraestructura propia?", "respuesta": "No. CXone es 100% en la nube: no requiere servidores propios y escala según la demanda." },
+    { "pregunta": "¿Qué canales soporta?", "respuesta": "Voz, chat web, email, WhatsApp, mensajería, SMS y redes sociales, todos gestionados desde un mismo escritorio de agente." },
+    { "pregunta": "¿Cómo se relaciona con NICE Cognigy?", "respuesta": "Cognigy aporta los agentes de IA conversacional que atienden en voz y chat. Juntos, CXone y Cognigy permiten automatizar la atención y derivar a un agente humano con todo el contexto cuando hace falta." },
+    { "pregunta": "¿Se integra con mi CRM?", "respuesta": "Sí. CXone cuenta con integraciones con los principales CRM y con APIs abiertas para conectar otros sistemas." },
+    { "pregunta": "¿Qué rol cumple Belltech?", "respuesta": "Belltech acompaña todo el proyecto: diseño, implementación, integración con tus sistemas, capacitación y soporte continuo, con equipos locales en Latinoamérica." }
+  ],
   "fuentes": [
-    { "texto": "NICE CXone - sitio oficial", "url": "https://www.nice.com" }
+    { "texto": "NICE - sitio oficial", "url": "https://www.nice.com" },
+    { "texto": "NICE CXone - centro de ayuda", "url": "https://help.nicecxone.com" },
+    { "texto": "Anuncio CXone Mpower (Business Wire, 2024)", "url": "https://www.businesswire.com/news/home/20241021875125/en/NICE-Expands-CXone-Mpower-%E2%80%93-The-Ultimate-AI-Hyper-Platform-for-Customer-Service-Automation" }
   ]
 }
