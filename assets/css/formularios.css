@@ -1,0 +1,122 @@
+/* =========================================================
+   Belltech Demo - Estilos de formularios
+   Ruta: belltech-demo/assets/css/formularios.css
+   Lo usan: contacto/ y portal/ (login).
+   Se carga DESPUÉS de estilos.css (usa sus variables).
+   ========================================================= */
+
+.formulario {
+  display: grid;
+  gap: 18px;
+}
+
+.formulario__fila {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 18px;
+}
+
+.campo {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.campo label {
+  font-weight: 600;
+  font-size: 0.9rem;
+  color: var(--color-primario);
+}
+
+.campo label .obligatorio {
+  color: var(--color-acento);
+  margin-left: 2px;
+}
+
+.campo input,
+.campo select,
+.campo textarea {
+  width: 100%;
+  padding: 12px 14px;
+  border: 1px solid var(--color-borde);
+  border-radius: 8px;
+  background: var(--color-blanco);
+  font-family: inherit;
+  font-size: 1rem;
+  color: var(--color-texto);
+  transition: border-color var(--transicion), box-shadow var(--transicion);
+}
+
+.campo textarea {
+  min-height: 120px;
+  resize: vertical;
+}
+
+.campo input:focus,
+.campo select:focus,
+.campo textarea:focus {
+  outline: none;
+  border-color: var(--color-secundario);
+  box-shadow: 0 0 0 3px rgba(0, 163, 224, 0.18);
+}
+
+.campo--error input,
+.campo--error select,
+.campo--error textarea {
+  border-color: #dc2626;
+}
+
+.campo__ayuda {
+  font-size: 0.8rem;
+  color: var(--color-texto-suave);
+}
+
+.formulario__acciones {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  flex-wrap: wrap;
+}
+
+.formulario__legal {
+  font-size: 0.8rem;
+  color: var(--color-texto-suave);
+  margin: 0;
+}
+
+.btn[disabled] {
+  opacity: 0.6;
+  cursor: not-allowed;
+  transform: none;
+}
+
+/* ---------- Mensajes de resultado ---------- */
+.mensaje {
+  padding: 14px 18px;
+  border-radius: 8px;
+  font-size: 0.95rem;
+  display: none;
+}
+
+.mensaje--visible {
+  display: block;
+}
+
+.mensaje--ok {
+  background: #ecfdf5;
+  border: 1px solid #a7f3d0;
+  color: #065f46;
+}
+
+.mensaje--error {
+  background: #fef2f2;
+  border: 1px solid #fecaca;
+  color: #991b1b;
+}
+
+/* ---------- Celular ---------- */
+@media (max-width: 600px) {
+  .formulario__fila {
+    grid-template-columns: 1fr;
+  }
+}
