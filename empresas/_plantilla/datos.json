@@ -1,39 +1,61 @@
 {
+  "_nota": "Datos ficticios para demostración. No corresponden a ninguna empresa real.",
+  "moneda": "USD",
   "resumen": {
     "clienteDesde": "2020",
     "ejecutivoCuenta": "Nombre del Ejecutivo Belltech",
-    "emailEjecutivo": "ejecutivo@demo-belltech.com",
-    "estadoGeneral": "Activo"
+    "emailEjecutivo": "ejecutivo@belltech.example",
+    "estadoGeneral": "Activo",
+    "segmento": "Industria"
   },
   "serviciosContratados": [
     {
+      "marca": "nice",
+      "producto": "cxone",
       "nombre": "NICE CXone",
-      "categoria": "Experiencia del Cliente",
+      "plan": "Nombre del plan",
+      "detalle": "Descripción breve del servicio contratado.",
+      "licencias": 10,
+      "unidadLicencia": "agentes",
       "estado": "Activo",
-      "desde": "2022-03-01",
-      "detalle": "Descripción breve del servicio contratado."
+      "desde": "2024-01-01",
+      "renovacion": "2027-01-01",
+      "costoMensual": 1000
     }
   ],
-  "proyectos": [
+  "consumoMes": {
+    "periodo": "2026-10",
+    "corte": "2026-10-09",
+    "items": [
+      { "producto": "cxone", "metrica": "Minutos de voz", "unidad": "min", "consumo": 1000, "incluido": 5000 }
+    ]
+  },
+  "historial": [
+    { "periodo": "2026-09", "minutosVoz": 4000, "interaccionesDigitales": 1000, "conversacionesIA": 0, "gasto": 1100 },
+    { "periodo": "2026-10", "minutosVoz": 1000, "interaccionesDigitales": 300, "conversacionesIA": 0, "gasto": 900, "parcial": true }
+  ],
+  "facturas": [
+    { "numero": "FC-A-0000-00000001", "periodo": "2026-09", "emision": "2026-10-01", "vencimiento": "2026-10-15", "importe": 1100, "estado": "Pendiente" }
+  ],
+  "reportes": [
     {
-      "nombre": "Nombre del proyecto",
-      "estado": "En curso",
-      "avance": 50,
-      "fechaFin": "2026-12-15"
+      "id": "cc-2026-09",
+      "producto": "cxone",
+      "titulo": "Desempeño del contact center",
+      "periodo": "2026-09",
+      "descripcion": "Indicadores principales de la operación.",
+      "indicadores": [
+        { "nombre": "Nivel de servicio", "valor": "80%" }
+      ]
     }
   ],
   "tickets": [
-    {
-      "numero": "TK-0001",
-      "asunto": "Asunto del ticket",
-      "estado": "Abierto",
-      "prioridad": "Media",
-      "fecha": "2026-10-01"
-    }
+    { "numero": "TK-0001", "asunto": "Asunto del ticket", "estado": "Abierto", "prioridad": "Media", "fecha": "2026-10-01" }
   ],
   "oportunidades": [
     {
-      "producto": "NICE Cognigy",
+      "producto": "cognigy",
+      "titulo": "Nombre de la oportunidad",
       "motivo": "Por qué le serviría a esta empresa.",
       "beneficio": "Beneficio esperado en una frase."
     }
