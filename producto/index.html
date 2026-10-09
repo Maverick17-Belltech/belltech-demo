@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <!-- Evita que Google indexe la réplica como si fuera el sitio oficial -->
+  <meta name="robots" content="noindex, nofollow">
+  <title>Producto | Belltech (Demo)</title>
+  <!-- Página en subcarpeta: los recursos se cargan con ../ -->
+  <link rel="stylesheet" href="../assets/css/estilos.css?v=3">
+</head>
+<body>
+  <!-- Banner DEMO, encabezado, pie y burbuja del agente IA los inserta assets/js/comun.js -->
+  <!-- El contenido lo arma assets/js/catalogo.js a partir de los JSON de catalogo/ -->
+
+  <main id="producto-contenido"></main>
+
+  <!-- Orden obligatorio: primero comun.js, después catalogo.js -->
+  <script src="../assets/js/comun.js?v=3"></script>
+  <script src="../assets/js/catalogo.js?v=1"></script>
+  <script>
+    BelltechDemo.renderProducto(document.getElementById('producto-contenido'));
+  </script>
+</body>
+</html>
