@@ -1,0 +1,7 @@
+{
+  "id": "nice",
+  "nombre": "NICE",
+  "descripcion": "Líder global en soluciones de experiencia del cliente en la nube e inteligencia artificial.",
+  "sitioOficial": "https://www.nice.com",
+  "productos": ["cxone", "cognigy"]
+}
