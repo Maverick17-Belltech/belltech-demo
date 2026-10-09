@@ -139,10 +139,24 @@ p {
   color: var(--color-primario);
 }
 
+/* El menú ocupa todo el espacio entre el logo y el borde derecho */
 .nav {
+  flex: 1;
   display: flex;
   align-items: center;
   gap: 4px;
+}
+
+/* Centrado de los links: el primer link y el botón Portal tienen
+   margen automático a la izquierda, y el espacio libre se reparte
+   en partes iguales. Así los links quedan en el centro y el
+   botón Portal queda pegado a la derecha. */
+.nav > :first-child {
+  margin-left: auto;
+}
+
+.nav__portal {
+  margin-left: auto;
 }
 
 .nav__enlace {
@@ -157,6 +171,18 @@ p {
 .nav__enlace:hover {
   background: var(--color-fondo-suave);
   text-decoration: none;
+}
+
+/* Sin recuadro de foco al hacer clic con el mouse (se mantiene con teclado) */
+.nav__enlace:focus:not(:focus-visible),
+.btn:focus:not(:focus-visible) {
+  outline: none;
+}
+
+.nav__enlace:focus-visible,
+.btn:focus-visible {
+  outline: 3px solid var(--color-secundario);
+  outline-offset: 2px;
 }
 
 .nav__enlace--activo {
@@ -177,10 +203,6 @@ p {
   font-size: 0.65rem;
   font-weight: 700;
   vertical-align: middle;
-}
-
-.nav__portal {
-  margin-left: 8px;
 }
 
 .menu-toggle {
@@ -340,6 +362,7 @@ p {
   gap: 24px;
 }
 
+.grilla--1 { grid-template-columns: 1fr; }
 .grilla--2 { grid-template-columns: repeat(2, 1fr); }
 .grilla--3 { grid-template-columns: repeat(3, 1fr); }
 .grilla--4 { grid-template-columns: repeat(4, 1fr); }
@@ -646,6 +669,11 @@ p {
 
   .nav--abierto {
     display: flex;
+  }
+
+  /* En el menú desplegable no se centra: todo alineado a la izquierda */
+  .nav > :first-child {
+    margin-left: 0;
   }
 
   .nav__portal {
