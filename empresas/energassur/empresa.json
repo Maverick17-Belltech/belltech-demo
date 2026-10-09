@@ -1,0 +1,16 @@
+{
+  "id": "energassur",
+  "nombre": "EnerGas Sur S.A. (ficticio)",
+  "nombreCorto": "EnerGas Sur",
+  "industria": "Servicios públicos",
+  "pais": "Argentina",
+  "logo": "",
+  "colores": {
+    "primario": "#1b5e20",
+    "secundario": "#ff8f00"
+  },
+  "cognigy": {
+    "etiquetaConocimiento": "empresa-energassur"
+  },
+  "activa": true
+}
