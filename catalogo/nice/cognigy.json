@@ -3,24 +3,65 @@
   "marca": "nice",
   "nombre": "NICE Cognigy",
   "categoria": "IA conversacional y AI Agents",
-  "resumen": "Plataforma de IA conversacional para crear agentes de inteligencia artificial que atienden, resuelven y venden en canales de voz y digitales.",
+  "resumen": "Plataforma de IA conversacional y agéntica para crear agentes de inteligencia artificial que atienden, resuelven y venden en voz y canales digitales, integrados con tu contact center y tus sistemas.",
   "beneficios": [
-    { "icono": "🧠", "titulo": "AI Agents", "texto": "Agentes que conversan de forma natural y ejecutan acciones en tus sistemas." },
-    { "icono": "🎙️", "titulo": "Voz y chat", "texto": "El mismo agente atiende en tu web, mensajería y teléfono." },
-    { "icono": "🤝", "titulo": "Handover y Copilot", "texto": "Derivación a humanos con contexto y asistencia en tiempo real." }
+    { "icono": "🧠", "titulo": "AI Agents autónomos", "texto": "Agentes que entienden la consulta, deciden qué hacer y usan herramientas para resolverla de punta a punta." },
+    { "icono": "🎙️", "titulo": "Voz y chat", "texto": "El mismo agente atiende en tu web, en mensajería y en el teléfono." },
+    { "icono": "📚", "titulo": "Responde con tu conocimiento", "texto": "Consulta tus documentos, preguntas frecuentes y manuales para dar respuestas precisas." },
+    { "icono": "🤝", "titulo": "Handover y Copilot", "texto": "Deriva a un agente humano con todo el contexto y lo asiste en tiempo real." },
+    { "icono": "🌎", "titulo": "Multilingüe", "texto": "Atiende a tus clientes en varios idiomas desde un mismo proyecto." },
+    { "icono": "📊", "titulo": "Mejora continua", "texto": "Analítica de cada conversación para medir resultados y optimizar el agente." }
   ],
   "funcionalidades": [
-    { "titulo": "Knowledge AI", "texto": "El agente responde a partir de tu propia base de conocimiento." },
-    { "titulo": "Diseño de flujos", "texto": "Editor visual para construir y mantener conversaciones." },
-    { "titulo": "Insights", "texto": "Analítica de cada conversación para mejorar de forma continua." }
+    { "titulo": "AI Agents", "texto": "Agentes con un rol y una descripción de trabajo, que razonan y deciden qué acción tomar en cada conversación." },
+    { "titulo": "Tools y MCP", "texto": "Los agentes ejecutan acciones en sistemas externos (APIs, bases de datos) y pueden conectarse mediante Model Context Protocol." },
+    { "titulo": "Knowledge AI", "texto": "Knowledge Stores con tu información de referencia para que el agente responda con datos propios." },
+    { "titulo": "Memoria y contexto", "texto": "El agente recuerda lo conversado y puede usar datos del cliente para personalizar la atención." },
+    { "titulo": "Flows low-code", "texto": "Editor visual para diseñar, probar y desplegar conversaciones de voz y chat." },
+    { "titulo": "Voice Gateway", "texto": "Conecta la telefonía con Cognigy para IVR conversacional y agentes de voz." },
+    { "titulo": "Webchat", "texto": "Widget de chat personalizable para tu sitio web, con soporte de imágenes y contenido enriquecido." },
+    { "titulo": "Live Agent", "texto": "Consola para que agentes humanos tomen la conversación cuando el cliente lo necesita." },
+    { "titulo": "Agent Copilot", "texto": "Asistente para agentes humanos: sugerencias, resúmenes y automatización de tareas rutinarias." },
+    { "titulo": "Colaboración entre agentes", "texto": "Varios AI Agents pueden colaborar y pasarse tareas para resolver consultas complejas." },
+    { "titulo": "xApps", "texto": "Componentes listos para usar dentro de la conversación, como pagos o reserva de turnos." },
+    { "titulo": "Insights", "texto": "Analítica e informes de las conversaciones: volúmenes, resultados, contención y más." }
   ],
-  "casosDeUso": [],
-  "integraciones": ["NICE CXone", "Webchat", "WhatsApp", "Telefonía (Voice Gateway)"],
+  "casosDeUso": [
+    { "titulo": "Atención 24/7", "texto": "Respuestas inmediatas a consultas frecuentes en cualquier horario y canal." },
+    { "titulo": "Ventas y generación de leads", "texto": "El agente asesora, recomienda productos, califica al interesado y agenda reuniones." },
+    { "titulo": "Autoservicio de trámites", "texto": "Consultas de saldo, estado de pedidos, cambios de datos o turnos, resueltos por el agente." },
+    { "titulo": "IVR conversacional", "texto": "Reemplazá los menús de opciones: el cliente dice lo que necesita y el agente de voz lo resuelve." },
+    { "titulo": "Asistencia al agente humano", "texto": "Copilot resume la conversación y sugiere respuestas para reducir tiempos de atención." },
+    { "titulo": "Atención personalizada", "texto": "Con el cliente identificado, el agente responde sobre sus productos, consumos y servicios." }
+  ],
+  "integraciones": [
+    "NICE CXone",
+    "Webchat",
+    "WhatsApp",
+    "Telefonía y SIP (Voice Gateway)",
+    "CRM y sistemas propios vía API",
+    "Proveedores de LLM",
+    "MCP (Model Context Protocol)"
+  ],
   "demos": [
-    { "titulo": "Hablá con Bella", "texto": "Bella es nuestra asesora IA creada con NICE Cognigy. Preguntale lo que quieras sobre CXone y Cognigy.", "tipo": "chat" }
+    { "titulo": "Hablá con Bella", "texto": "Bella es nuestra asesora IA creada con NICE Cognigy. Preguntale lo que quieras sobre CXone y Cognigy, o pedile una reunión.", "tipo": "chat" },
+    { "titulo": "Bella reconoce a nuestros clientes", "texto": "Ingresá al Portal clientes y hablá con Bella: te va a reconocer y responder sobre tus servicios y consumos.", "tipo": "proximamente" },
+    { "titulo": "Bella por teléfono", "texto": "Muy pronto vas a poder llamar y hablar con Bella por voz.", "tipo": "proximamente" }
   ],
-  "faq": [],
+  "faq": [
+    { "pregunta": "¿Qué es NICE Cognigy?", "respuesta": "Es una plataforma de IA conversacional y agéntica para crear agentes de inteligencia artificial que atienden a clientes en voz y en canales digitales." },
+    { "pregunta": "¿Cognigy es parte de NICE?", "respuesta": "Sí. NICE adquirió Cognigy en 2025, sumando su IA conversacional al ecosistema de NICE CXone." },
+    { "pregunta": "¿Qué es un AI Agent?", "respuesta": "Es un agente autónomo con un rol definido que entiende la consulta, decide qué hacer y usa herramientas, conocimiento y memoria para resolverla." },
+    { "pregunta": "¿Puede responder con información de mi empresa?", "respuesta": "Sí. Con Knowledge AI el agente consulta tus documentos y preguntas frecuentes para responder con tu propia información." },
+    { "pregunta": "¿Funciona por teléfono?", "respuesta": "Sí. Con Voice Gateway el mismo agente puede atender llamadas telefónicas como un IVR conversacional." },
+    { "pregunta": "¿Qué pasa si el cliente quiere hablar con una persona?", "respuesta": "El agente deriva la conversación a un agente humano con todo el contexto, y Agent Copilot lo asiste en tiempo real." },
+    { "pregunta": "¿Se integra con NICE CXone?", "respuesta": "Sí. Cognigy se integra con CXone para combinar agentes de IA y agentes humanos en una misma operación de contact center." },
+    { "pregunta": "¿Qué rol cumple Belltech?", "respuesta": "Belltech diseña, implementa e integra los agentes de IA con tus canales y sistemas, y los opera y mejora de forma continua." }
+  ],
   "fuentes": [
-    { "texto": "Documentación oficial de Cognigy", "url": "https://docs.cognigy.com" }
+    { "texto": "Documentación oficial de Cognigy", "url": "https://docs.cognigy.com" },
+    { "texto": "AI Agents en Cognigy", "url": "https://docs.cognigy.com/ai/agents/overview/" },
+    { "texto": "Knowledge AI", "url": "https://docs.cognigy.com/ai/agents/develop/knowledge-ai/overview" },
+    { "texto": "NICE - sitio oficial", "url": "https://www.nice.com" }
   ]
 }
