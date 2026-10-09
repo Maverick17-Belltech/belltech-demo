@@ -1,0 +1,5 @@
+{
+  "_descripcion": "Marcas activas en el sitio. Cada valor debe ser igual al nombre de una carpeta dentro de catalogo/. Para sumar una marca (ej. avaya): crear catalogo/avaya/ con marca.json y sus productos, y agregar \"avaya\" a esta lista.",
+  "version": 1,
+  "marcas": ["nice"]
+}
