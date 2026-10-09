@@ -1,27 +1,21 @@
 /* =========================================================
-   Belltech Demo - Motor del catálogo de productos
+   Belltech Demo - Presentación del catálogo de productos
    Ruta: belltech-demo/assets/js/catalogo.js
-   Lee catalogo/index.json, catalogo/<marca>/marca.json y
-   catalogo/<marca>/<producto>.json y arma las páginas.
-   Requiere que assets/js/comun.js se cargue ANTES (usa BelltechDemo.raiz).
+   Dibuja la página de producto y las tarjetas de productos.
+   Los datos se leen con las funciones de comun.js
+   (BelltechDemo.cargarCatalogo, BelltechDemo.cargarProducto).
+   Requiere que assets/js/comun.js se cargue ANTES.
    ========================================================= */
 (function () {
   'use strict';
 
   var BD = (window.BelltechDemo = window.BelltechDemo || {});
+  var esc = BD.esc;
 
   /* ---------- Utilidades ---------- */
 
-  // Escapa texto para insertarlo en HTML de forma segura
-  function esc(texto) {
-    return String(texto == null ? '' : texto).replace(/[&<>"']/g, function (c) {
-      return { '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c];
-    });
-  }
-
-  // Solo se aceptan identificadores simples: minúsculas, números y guiones
-  function idValido(id) {
-    return typeof id === 'string' && /^[a-z0-9-]+$/.test(id);
+  function lista(valor) {
+    return Array.isArray(valor) ? valor : [];
   }
 
   // Solo se aceptan enlaces http/https
@@ -29,62 +23,9 @@
     return typeof url === 'string' && /^https?:\/\//i.test(url) ? url : '#';
   }
 
-  function cargarJSON(ruta) {
-    return fetch(BD.raiz + ruta, { cache: 'no-cache' }).then(function (r) {
-      if (!r.ok) throw new Error('No se pudo cargar ' + ruta + ' (error ' + r.status + ')');
-      return r.json();
-    });
+  function demoChat(producto) {
+    return lista(producto.demos).filter(function (d) { return d.tipo === 'chat'; })[0];
   }
-
-  function lista(valor) {
-    return Array.isArray(valor) ? valor : [];
-  }
-
-  /* ---------- API pública ---------- */
-
-  // URL de la página de un producto
-  BD.urlProducto = function (marca, id) {
-    return BD.raiz + 'producto/?marca=' + encodeURIComponent(marca) + '&id=' + encodeURIComponent(id);
-  };
-
-  // Carga un producto puntual
-  BD.cargarProducto = function (marca, id) {
-    if (!idValido(marca) || !idValido(id)) {
-      return Promise.reject(new Error('Producto no válido'));
-    }
-    return cargarJSON('catalogo/' + marca + '/' + id + '.json');
-  };
-
-  // Carga el catálogo completo (se guarda en memoria para no repetir pedidos)
-  // Devuelve: { marcas: [ { id, nombre, ..., productos: [ {producto}, ... ] } ] }
-  BD.cargarCatalogo = function () {
-    if (BD._catalogo) return BD._catalogo;
-
-    BD._catalogo = cargarJSON('catalogo/index.json')
-      .then(function (indice) {
-        var marcas = lista(indice.marcas).filter(idValido);
-        return Promise.all(
-          marcas.map(function (idMarca) {
-            return cargarJSON('catalogo/' + idMarca + '/marca.json').then(function (marca) {
-              var ids = lista(marca.productos).filter(idValido);
-              return Promise.all(
-                ids.map(function (idProd) {
-                  return cargarJSON('catalogo/' + idMarca + '/' + idProd + '.json');
-                })
-              ).then(function (productos) {
-                marca.productos = productos;
-                return marca;
-              });
-            });
-          })
-        );
-      })
-      .then(function (marcas) {
-        return { marcas: marcas };
-      });
-
-    return BD._catalogo;
-  };
 
   /* ---------- Bloques HTML ---------- */
 
@@ -132,10 +73,39 @@
     );
   }
 
+  // Tarjetas de todos los productos del catálogo (home y listado)
+  function htmlTarjetasProductos(catalogo) {
+    var items = BD.listarProductos(catalogo);
+    var columnas = Math.min(Math.max(items.length, 1), 3);
+    return (
+      '<div class="grilla grilla--' + columnas + '">' +
+      items
+        .map(function (it) {
+          var m = it.marca;
+          var p = it.producto;
+          var chat = demoChat(p);
+          return (
+            '<div class="tarjeta">' +
+            '<span class="etiqueta">' + esc(m.nombre) + '</span>' +
+            '<h3 style="margin-top:12px;">' + esc(p.nombre) + '</h3>' +
+            '<p style="color:var(--color-secundario);font-weight:600;font-size:.9rem;">' + esc(p.categoria) + '</p>' +
+            '<p>' + esc(p.resumen) + '</p>' +
+            '<div class="botonera">' +
+            '<a class="btn btn--secundario btn--chico" href="' + BD.urlProducto(m.id, p.id) + '">Ver producto</a>' +
+            (chat ? '<a class="btn btn--primario btn--chico" href="#" data-accion="abrir-chat">Preguntale a ' + esc(BD.agente.nombre) + '</a>' : '') +
+            '</div>' +
+            '</div>'
+          );
+        })
+        .join('') +
+      '</div>'
+    );
+  }
+
   function htmlProducto(p) {
     var html = '';
     var demos = lista(p.demos);
-    var demoChat = demos.filter(function (d) { return d.tipo === 'chat'; })[0];
+    var chat = demoChat(p);
 
     // Hero
     html +=
@@ -145,7 +115,7 @@
       '    <h1>' + esc(p.nombre) + '</h1>' +
       '    <p>' + esc(p.resumen) + '</p>' +
       '    <div class="botonera">' +
-      (demoChat ? htmlBotonDemo(demoChat, 'btn--primario') : '') +
+      (chat ? htmlBotonDemo(chat, 'btn--primario') : '') +
       '      <a class="btn btn--claro" href="' + BD.raiz + 'contacto/?producto=' + encodeURIComponent(p.id) + '">Pedí una demo</a>' +
       '    </div>' +
       '  </div>' +
@@ -235,10 +205,10 @@
       '    <div class="banda-cta">' +
       '      <div>' +
       '        <h2>¿Querés saber más sobre ' + esc(p.nombre) + '?</h2>' +
-      '        <p>Preguntale a Bella o agendá una reunión con un especialista.</p>' +
+      '        <p>Preguntale a ' + esc(BD.agente.nombre) + ' o agendá una reunión con un especialista.</p>' +
       '      </div>' +
       '      <div class="botonera">' +
-      '        <a class="btn btn--claro" href="#" data-accion="abrir-chat">Hablar con Bella</a>' +
+      '        <a class="btn btn--claro" href="#" data-accion="abrir-chat">Hablar con ' + esc(BD.agente.nombre) + '</a>' +
       '        <a class="btn btn--acento" href="' + BD.raiz + 'contacto/?producto=' + encodeURIComponent(p.id) + '">Pedí una demo</a>' +
       '      </div>' +
       '    </div>' +
@@ -261,23 +231,6 @@
     return html;
   }
 
-  function htmlListado(catalogo) {
-    var tarjetas = [];
-    catalogo.marcas.forEach(function (m) {
-      lista(m.productos).forEach(function (p) {
-        tarjetas.push(
-          '<div class="tarjeta">' +
-          '<span class="etiqueta">' + esc(m.nombre) + '</span>' +
-          '<h3 style="margin-top:12px;">' + esc(p.nombre) + '</h3>' +
-          '<p>' + esc(p.resumen) + '</p>' +
-          '<a class="btn btn--secundario btn--chico" href="' + BD.urlProducto(m.id, p.id) + '">Ver producto</a>' +
-          '</div>'
-        );
-      });
-    });
-    return htmlSeccion('', 'Catálogo', 'Nuestros productos', '', '<div class="grilla grilla--3">' + tarjetas.join('') + '</div>');
-  }
-
   function htmlMensaje(titulo, texto) {
     return (
       '<section class="seccion"><div class="contenedor" style="text-align:center;">' +
@@ -287,7 +240,21 @@
     );
   }
 
-  /* ---------- Página de producto ----------
+  /* ---------- API pública ---------- */
+
+  // Tarjetas de productos dentro de un contenedor (se usa en la home)
+  BD.renderTarjetasProductos = function (contenedor) {
+    BD.cargarCatalogo()
+      .then(function (catalogo) {
+        contenedor.innerHTML = htmlTarjetasProductos(catalogo);
+      })
+      .catch(function (err) {
+        console.error(err);
+        contenedor.innerHTML = '<p style="text-align:center;">No pudimos cargar los productos.</p>';
+      });
+  };
+
+  /* Página de producto
      producto/?marca=nice&id=cognigy  -> muestra ese producto
      producto/                        -> muestra el listado de todos los productos */
   BD.renderProducto = function (contenedor) {
@@ -299,9 +266,9 @@
 
     if (!marca && !id) {
       BD.cargarCatalogo()
-        .then(function (cat) {
+        .then(function (catalogo) {
           document.title = 'Productos | Belltech (Demo)';
-          contenedor.innerHTML = htmlListado(cat);
+          contenedor.innerHTML = htmlSeccion('', 'Catálogo', 'Nuestros productos', '', htmlTarjetasProductos(catalogo));
         })
         .catch(function (err) {
           console.error(err);
