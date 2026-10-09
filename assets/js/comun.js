@@ -3,8 +3,8 @@
    Ruta: belltech-demo/assets/js/comun.js
    Inserta: banner DEMO, encabezado con menú, pie de página
    y la burbuja del agente IA.
-   También expone utilidades de datos (cargarJSON, catálogo)
-   que usan catalogo.js y el portal de clientes.
+   También expone utilidades de datos (cargarJSON, catálogo),
+   y la sesión del portal de clientes (iniciar, consultar, cerrar).
    Cada página solo tiene que incluir este script al final del <body>.
    ========================================================= */
 (function () {
@@ -73,6 +73,11 @@
     });
   };
 
+  // Primer nombre de una persona ("Lucía Fernández" -> "Lucía")
+  BD.primerNombre = function (nombre) {
+    return String(nombre || '').trim().split(/\s+/)[0];
+  };
+
   /* ---------- Catálogo de productos ---------- */
 
   BD.urlProducto = function (marca, id) {
@@ -128,6 +133,109 @@
     return resultado;
   };
 
+  /* ---------- Sesión del portal de clientes ----------
+     Se guarda en sessionStorage (dura hasta cerrar la pestaña).
+     Nunca se guarda la clave.
+     Estructura: { empresaId, empresa, empresaNombre, industria, pais,
+                   nombre, email, cargo, inicio } */
+  var CLAVE_SESION = 'belltechDemo.sesion';
+
+  BD.obtenerSesion = function () {
+    try {
+      var texto = window.sessionStorage.getItem(CLAVE_SESION);
+      return texto ? JSON.parse(texto) : null;
+    } catch (e) {
+      return null;
+    }
+  };
+
+  function guardarSesion(sesion) {
+    try {
+      window.sessionStorage.setItem(CLAVE_SESION, JSON.stringify(sesion));
+    } catch (e) {
+      console.warn('No se pudo guardar la sesión en este navegador.', e);
+    }
+  }
+
+  // Aviso para otras partes del sitio (por ejemplo, el Webchat en el H5)
+  function avisarCambioSesion() {
+    try {
+      window.dispatchEvent(new CustomEvent('belltechdemo:sesion', { detail: BD.obtenerSesion() }));
+    } catch (e) { /* navegadores muy viejos: se ignora */ }
+  }
+
+  BD.cerrarSesion = function () {
+    try {
+      window.sessionStorage.removeItem(CLAVE_SESION);
+    } catch (e) { /* se ignora */ }
+    avisarCambioSesion();
+  };
+
+  // Valida email y clave contra empresas/<id>/contactos.json de las empresas activas.
+  // Devuelve una promesa con la sesión, o falla con un mensaje para mostrar.
+  BD.iniciarSesion = function (email, clave) {
+    var correo = String(email || '').trim().toLowerCase();
+
+    return BD.cargarJSON('empresas/index.json')
+      .then(function (indice) {
+        var ids = (Array.isArray(indice.empresas) ? indice.empresas : []).filter(BD.idValido);
+        return Promise.all(
+          ids.map(function (id) {
+            return BD.cargarJSON('empresas/' + id + '/contactos.json')
+              .then(function (contactos) {
+                return { id: id, contactos: Array.isArray(contactos) ? contactos : [] };
+              })
+              .catch(function () {
+                return { id: id, contactos: [] };
+              });
+          })
+        );
+      })
+      .then(function (empresas) {
+        var encontrado = null;
+        empresas.forEach(function (e) {
+          e.contactos.forEach(function (c) {
+            if (
+              !encontrado &&
+              c.activo !== false &&
+              String(c.email || '').toLowerCase() === correo &&
+              c.clave === clave
+            ) {
+              encontrado = { empresaId: e.id, contacto: c };
+            }
+          });
+        });
+
+        if (!encontrado) throw new Error('El email o la clave no son correctos.');
+
+        return BD.cargarJSON('empresas/' + encontrado.empresaId + '/empresa.json').then(function (emp) {
+          if (emp.activa === false) throw new Error('La cuenta de tu empresa no está activa.');
+
+          var sesion = {
+            empresaId: encontrado.empresaId,
+            empresa: emp.nombreCorto || emp.nombre,
+            empresaNombre: emp.nombre,
+            industria: emp.industria || '',
+            pais: emp.pais || '',
+            nombre: encontrado.contacto.contacto,
+            email: encontrado.contacto.email,
+            cargo: encontrado.contacto.cargo || '',
+            inicio: new Date().toISOString()
+          };
+          guardarSesion(sesion);
+          avisarCambioSesion();
+          return sesion;
+        });
+      });
+  };
+
+  // Datos de la empresa del usuario logueado (empresas/<id>/datos.json)
+  BD.cargarDatosEmpresa = function () {
+    var s = BD.obtenerSesion();
+    if (!s || !BD.idValido(s.empresaId)) return Promise.reject(new Error('No hay una sesión iniciada.'));
+    return BD.cargarJSON('empresas/' + s.empresaId + '/datos.json');
+  };
+
   /* ---------- Utilidades de navegación ---------- */
   function rutaAbsoluta(ruta) {
     return new URL(BD.raiz + ruta, window.location.href).pathname;
@@ -158,6 +266,12 @@
         return htmlEnlace(item.texto, BD.raiz + item.ruta, esPaginaActual(item.ruta), item.destacado);
       })
       .join('');
+  }
+
+  // Texto del botón del portal según haya o no sesión
+  function textoBotonPortal() {
+    var s = BD.obtenerSesion();
+    return s ? 'Hola, ' + BD.primerNombre(s.nombre) + ' · Mi portal' : 'Portal clientes';
   }
 
   // Si el logo no carga, se reemplaza por el texto "Belltech"
@@ -191,7 +305,9 @@
            htmlEnlacesFijos(BD.menuInicio) +
       '    <span id="nav-productos" style="display:contents;"></span>' +
            htmlEnlacesFijos(BD.menuFin) +
-      '    <a class="btn btn--primario btn--chico nav__portal" href="' + BD.raiz + 'portal/">Portal clientes</a>' +
+      '    <a id="boton-portal" class="btn btn--primario btn--chico nav__portal" href="' + BD.raiz + 'portal/">' +
+             BD.esc(textoBotonPortal()) +
+      '    </a>' +
       '  </nav>' +
       '</div>';
 
@@ -234,7 +350,7 @@
       '    <ul>' +
       '      <li><a href="' + (r || './') + '">Inicio</a></li>' +
       '      <li><a href="' + r + 'contacto/">Pedí una demo</a></li>' +
-      '      <li><a href="' + r + 'portal/">Portal clientes</a></li>' +
+      '      <li><a href="' + r + 'portal/">' + BD.esc(BD.obtenerSesion() ? 'Mi portal' : 'Portal clientes') + '</a></li>' +
       '      <li><a href="#" data-accion="abrir-chat">Hablá con ' + BD.esc(BD.agente.nombre) + '</a></li>' +
       '    </ul>' +
       '  </div>' +
@@ -361,7 +477,9 @@
       if (typeof BD.abrirChat === 'function') {
         BD.abrirChat();
       } else {
+        var s = BD.obtenerSesion();
         BD.mostrarAviso(
+          (s ? BD.primerNombre(s.nombre) + ', ' : '') +
           BD.agente.nombre + ', nuestra ' + BD.agente.rol + ', estará disponible muy pronto en este sitio.'
         );
       }
