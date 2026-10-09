@@ -144,7 +144,7 @@ p {
   flex: 1;
   display: flex;
   align-items: center;
-  gap: 4px;
+  gap: 12px;
 }
 
 /* Centrado de los links: el primer link y el botón Portal tienen
@@ -160,11 +160,11 @@ p {
 }
 
 .nav__enlace {
-  padding: 8px 12px;
+  padding: 8px 14px;
   border-radius: 6px;
   color: var(--color-primario);
   font-weight: 600;
-  font-size: 0.95rem;
+  font-size: 1.05rem;
   transition: background var(--transicion), color var(--transicion);
 }
 
@@ -203,6 +203,12 @@ p {
   font-size: 0.65rem;
   font-weight: 700;
   vertical-align: middle;
+}
+
+/* Botón Portal clientes: un poco más grande que un botón chico normal */
+.nav__portal.btn--chico {
+  padding: 10px 20px;
+  font-size: 0.95rem;
 }
 
 .menu-toggle {
@@ -661,6 +667,7 @@ p {
     top: 100%;
     flex-direction: column;
     align-items: stretch;
+    gap: 4px;
     background: var(--color-blanco);
     border-bottom: 1px solid var(--color-borde);
     padding: 8px 16px 16px;
