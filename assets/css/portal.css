@@ -1,0 +1,316 @@
+/* =========================================================
+   Belltech Demo - Estilos del panel del portal de clientes
+   Ruta: belltech-demo/assets/css/portal.css
+   Lo usa: portal/
+   Se carga DESPUÉS de estilos.css (usa sus variables).
+   ========================================================= */
+
+/* ---------- Navegación interna del panel ---------- */
+.portal-nav {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  justify-content: center;
+  margin: 0 0 48px;
+}
+
+.portal-nav a {
+  padding: 8px 16px;
+  border-radius: 999px;
+  border: 1px solid var(--color-borde);
+  background: var(--color-blanco);
+  color: var(--color-primario);
+  font-weight: 600;
+  font-size: 0.9rem;
+}
+
+.portal-nav a:hover {
+  background: var(--color-fondo-suave);
+  text-decoration: none;
+}
+
+/* ---------- Bloques del panel ---------- */
+.portal-bloque {
+  margin-bottom: 64px;
+  scroll-margin-top: 150px;
+}
+
+.portal-bloque__titulo {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-bottom: 20px;
+}
+
+.portal-bloque__titulo h2 {
+  margin: 0;
+  font-size: 1.6rem;
+}
+
+.portal-bloque__nota {
+  font-size: 0.85rem;
+  color: var(--color-texto-suave);
+}
+
+/* ---------- Medidores de consumo ---------- */
+.medidor {
+  display: grid;
+  gap: 8px;
+}
+
+.medidor__encabezado {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  gap: 12px;
+  flex-wrap: wrap;
+}
+
+.medidor__nombre {
+  font-weight: 700;
+  color: var(--color-primario);
+}
+
+.medidor__producto {
+  font-size: 0.75rem;
+  color: var(--color-texto-suave);
+  text-transform: uppercase;
+  letter-spacing: 1px;
+}
+
+.medidor__barra {
+  height: 10px;
+  border-radius: 999px;
+  background: var(--color-fondo-suave);
+  overflow: hidden;
+}
+
+.medidor__relleno {
+  height: 100%;
+  border-radius: 999px;
+  background: var(--color-secundario);
+}
+
+.medidor__relleno--alerta {
+  background: var(--color-acento);
+}
+
+.medidor__detalle {
+  font-size: 0.9rem;
+  color: var(--color-texto);
+}
+
+.medidor__alerta {
+  font-size: 0.85rem;
+  font-weight: 600;
+  color: #b45309;
+}
+
+/* ---------- Mini gráficos (historial) ---------- */
+.minigrafico h3 {
+  font-size: 1rem;
+  margin-bottom: 4px;
+}
+
+.minigrafico__valor {
+  font-size: 1.6rem;
+  font-weight: 800;
+  color: var(--color-primario);
+  margin: 0 0 12px;
+}
+
+.minigrafico__valor span {
+  font-size: 0.85rem;
+  font-weight: 500;
+  color: var(--color-texto-suave);
+  margin-left: 6px;
+}
+
+.minigrafico svg {
+  display: block;
+  width: 100%;
+  height: auto;
+}
+
+.minigrafico__barra {
+  fill: var(--color-secundario);
+  cursor: pointer;
+  transition: fill var(--transicion);
+}
+
+.minigrafico__barra--parcial {
+  fill-opacity: 0.35;
+}
+
+.minigrafico__barra:hover {
+  fill: var(--color-primario-claro);
+  fill-opacity: 1;
+}
+
+.minigrafico__eje {
+  stroke: var(--color-borde);
+  stroke-width: 1;
+}
+
+.minigrafico__etiqueta {
+  fill: var(--color-texto-suave);
+  font-size: 11px;
+  font-family: var(--fuente-base);
+}
+
+.minigrafico__nota {
+  margin: 10px 0 0;
+  font-size: 0.8rem;
+  color: var(--color-texto-suave);
+}
+
+/* Tooltip compartido de los gráficos */
+.tooltip-grafico {
+  position: fixed;
+  z-index: 3000;
+  padding: 8px 12px;
+  border-radius: 8px;
+  background: var(--color-primario);
+  color: var(--color-blanco);
+  font-size: 0.85rem;
+  pointer-events: none;
+  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.2);
+  white-space: nowrap;
+}
+
+/* ---------- Tablas ---------- */
+.tabla-contenedor {
+  overflow-x: auto;
+  border: 1px solid var(--color-borde);
+  border-radius: var(--radio);
+  background: var(--color-blanco);
+}
+
+.tabla {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 0.95rem;
+}
+
+.tabla th,
+.tabla td {
+  padding: 12px 16px;
+  text-align: left;
+  border-bottom: 1px solid var(--color-borde);
+  white-space: nowrap;
+}
+
+.tabla th {
+  background: var(--color-fondo-suave);
+  color: var(--color-primario);
+  font-weight: 700;
+  font-size: 0.85rem;
+}
+
+.tabla tr:last-child td {
+  border-bottom: none;
+}
+
+.tabla .numero {
+  text-align: right;
+  font-variant-numeric: tabular-nums;
+}
+
+.tabla-detalle {
+  margin-top: 16px;
+}
+
+.tabla-detalle summary {
+  cursor: pointer;
+  font-weight: 600;
+  color: var(--color-secundario);
+  margin-bottom: 12px;
+}
+
+/* ---------- Estados (siempre con texto, nunca solo color) ---------- */
+.estado {
+  display: inline-block;
+  padding: 2px 10px;
+  border-radius: 999px;
+  font-size: 0.8rem;
+  font-weight: 700;
+}
+
+.estado--ok {
+  background: #ecfdf5;
+  color: #065f46;
+}
+
+.estado--pendiente {
+  background: #fffbeb;
+  color: #92400e;
+}
+
+.estado--curso {
+  background: #eff6ff;
+  color: #1e40af;
+}
+
+/* ---------- Reportes ---------- */
+.indicadores {
+  display: grid;
+  gap: 10px;
+  margin: 16px 0 0;
+}
+
+.indicadores div {
+  display: flex;
+  justify-content: space-between;
+  gap: 12px;
+  padding-bottom: 8px;
+  border-bottom: 1px solid var(--color-borde);
+}
+
+.indicadores div:last-child {
+  border-bottom: none;
+  padding-bottom: 0;
+}
+
+.indicadores dt {
+  color: var(--color-texto-suave);
+  font-size: 0.9rem;
+}
+
+.indicadores dd {
+  margin: 0;
+  font-weight: 700;
+  color: var(--color-primario);
+  text-align: right;
+}
+
+/* ---------- Resumen de facturación ---------- */
+.resumen-facturas {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 24px;
+  margin-bottom: 16px;
+}
+
+.resumen-facturas strong {
+  display: block;
+  font-size: 1.4rem;
+  color: var(--color-primario);
+}
+
+.resumen-facturas span {
+  font-size: 0.85rem;
+  color: var(--color-texto-suave);
+}
+
+/* ---------- Celular ---------- */
+@media (max-width: 600px) {
+  .portal-bloque {
+    margin-bottom: 48px;
+  }
+
+  .portal-bloque__titulo h2 {
+    font-size: 1.35rem;
+  }
+}
