@@ -1,0 +1,76 @@
+/* =========================================================
+   Belltech Demo - Estilos globales
+   Ruta: belltech-demo/assets/css/estilos.css
+   Todas las páginas usan este archivo.
+   ========================================================= */
+
+/* ---------- Variables (colores y medidas centralizadas) ---------- */
+:root {
+  --color-primario: #0a2a5e;
+  --color-secundario: #00a3e0;
+  --color-acento: #ff6b00;
+  --color-texto: #1f2937;
+  --color-fondo: #ffffff;
+  --color-fondo-suave: #f4f6fa;
+
+  --color-banner-fondo: #ffcc00;
+  --color-banner-texto: #1f1f1f;
+
+  --fuente-base: "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+  --ancho-maximo: 1200px;
+  --radio: 8px;
+}
+
+/* ---------- Base ---------- */
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+html,
+body {
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  font-family: var(--fuente-base);
+  color: var(--color-texto);
+  background: var(--color-fondo);
+  line-height: 1.6;
+}
+
+img {
+  max-width: 100%;
+  height: auto;
+}
+
+/* ---------- Banner DEMO (visible en todas las páginas) ---------- */
+#banner-demo {
+  position: sticky;
+  top: 0;
+  z-index: 9999;
+  width: 100%;
+  padding: 8px 16px;
+  background: var(--color-banner-fondo);
+  color: var(--color-banner-texto);
+  font-size: 14px;
+  font-weight: 600;
+  text-align: center;
+  letter-spacing: 0.3px;
+}
+
+/* ---------- Layout ---------- */
+.contenedor {
+  max-width: var(--ancho-maximo);
+  margin: 0 auto;
+  padding: 32px 16px;
+}
+
+/* ---------- Celular ---------- */
+@media (max-width: 600px) {
+  #banner-demo {
+    font-size: 12px;
+  }
+}
