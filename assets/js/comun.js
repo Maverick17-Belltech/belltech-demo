@@ -3,6 +3,8 @@
    Ruta: belltech-demo/assets/js/comun.js
    Inserta: banner DEMO, encabezado con menú, pie de página
    y la burbuja del agente IA.
+   También expone utilidades de datos (cargarJSON, catálogo)
+   que usan catalogo.js y el portal de clientes.
    Cada página solo tiene que incluir este script al final del <body>.
    ========================================================= */
 (function () {
@@ -38,20 +40,95 @@
     inicial: 'B'
   };
 
-  // Menú principal: para agregar o quitar opciones, editar solo esta lista
-  BD.menu = [
-    { texto: 'Inicio', ruta: '' },
-    { texto: 'Soluciones', ruta: 'soluciones/' },
-    { texto: 'Servicios', ruta: 'servicios/' },
-    { texto: 'NICE Cognigy', ruta: 'nice-cognigy/', destacado: true },
-    { texto: 'Partners', ruta: 'partners/' },
-    { texto: 'Conócenos', ruta: 'conocenos/' },
+  // Menú: estos enlaces son fijos. Entre ambos grupos se insertan
+  // automáticamente los productos del catálogo (catalogo/index.json).
+  BD.menuInicio = [
+    { texto: 'Inicio', ruta: '' }
+  ];
+  BD.menuFin = [
     { texto: 'Contacto', ruta: 'contacto/' }
   ];
 
   BD.paises = ['Argentina', 'Brasil', 'Chile', 'Colombia', 'Ecuador', 'Perú', 'Uruguay', 'México'];
 
-  /* ---------- Utilidades ---------- */
+  /* ---------- Utilidades generales (las usan también catalogo.js y el portal) ---------- */
+
+  // Escapa texto para insertarlo en HTML de forma segura
+  BD.esc = function (texto) {
+    return String(texto == null ? '' : texto).replace(/[&<>"']/g, function (c) {
+      return { '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c];
+    });
+  };
+
+  // Identificadores simples: minúsculas, números y guiones
+  BD.idValido = function (id) {
+    return typeof id === 'string' && /^[a-z0-9-]+$/.test(id);
+  };
+
+  // Lee un JSON del sitio, siempre fresco (sin caché)
+  BD.cargarJSON = function (ruta) {
+    return fetch(BD.raiz + ruta, { cache: 'no-cache' }).then(function (r) {
+      if (!r.ok) throw new Error('No se pudo cargar ' + ruta + ' (error ' + r.status + ')');
+      return r.json();
+    });
+  };
+
+  /* ---------- Catálogo de productos ---------- */
+
+  BD.urlProducto = function (marca, id) {
+    return BD.raiz + 'producto/?marca=' + encodeURIComponent(marca) + '&id=' + encodeURIComponent(id);
+  };
+
+  BD.cargarProducto = function (marca, id) {
+    if (!BD.idValido(marca) || !BD.idValido(id)) {
+      return Promise.reject(new Error('Producto no válido'));
+    }
+    return BD.cargarJSON('catalogo/' + marca + '/' + id + '.json');
+  };
+
+  // Devuelve: { marcas: [ { id, nombre, ..., productos: [ {producto}, ... ] } ] }
+  // Se guarda en memoria para no repetir pedidos en la misma página.
+  BD.cargarCatalogo = function () {
+    if (BD._catalogo) return BD._catalogo;
+
+    BD._catalogo = BD.cargarJSON('catalogo/index.json')
+      .then(function (indice) {
+        var marcas = (Array.isArray(indice.marcas) ? indice.marcas : []).filter(BD.idValido);
+        return Promise.all(
+          marcas.map(function (idMarca) {
+            return BD.cargarJSON('catalogo/' + idMarca + '/marca.json').then(function (marca) {
+              var ids = (Array.isArray(marca.productos) ? marca.productos : []).filter(BD.idValido);
+              return Promise.all(
+                ids.map(function (idProd) {
+                  return BD.cargarJSON('catalogo/' + idMarca + '/' + idProd + '.json');
+                })
+              ).then(function (productos) {
+                marca.productos = productos;
+                return marca;
+              });
+            });
+          })
+        );
+      })
+      .then(function (marcas) {
+        return { marcas: marcas };
+      });
+
+    return BD._catalogo;
+  };
+
+  // Lista plana: [ { marca: {...}, producto: {...} }, ... ]
+  BD.listarProductos = function (catalogo) {
+    var resultado = [];
+    catalogo.marcas.forEach(function (m) {
+      (m.productos || []).forEach(function (p) {
+        resultado.push({ marca: m, producto: p });
+      });
+    });
+    return resultado;
+  };
+
+  /* ---------- Utilidades de navegación ---------- */
   function rutaAbsoluta(ruta) {
     return new URL(BD.raiz + ruta, window.location.href).pathname;
   }
@@ -61,6 +138,26 @@
     var destino = rutaAbsoluta(ruta);
     if (ruta === '') return actual === destino;
     return actual.indexOf(destino) === 0;
+  }
+
+  function esProductoActual(marca, id) {
+    var params = new URLSearchParams(window.location.search);
+    return esPaginaActual('producto/') && params.get('marca') === marca && params.get('id') === id;
+  }
+
+  function htmlEnlace(texto, href, activo, destacado) {
+    var clases = 'nav__enlace';
+    if (destacado) clases += ' nav__enlace--destacado';
+    if (activo) clases += ' nav__enlace--activo';
+    return '<a class="' + clases + '" href="' + href + '">' + BD.esc(texto) + '</a>';
+  }
+
+  function htmlEnlacesFijos(lista) {
+    return lista
+      .map(function (item) {
+        return htmlEnlace(item.texto, BD.raiz + item.ruta, esPaginaActual(item.ruta), item.destacado);
+      })
+      .join('');
   }
 
   // Si el logo no carga, se reemplaza por el texto "Belltech"
@@ -84,15 +181,6 @@
     banner.textContent =
       'SITIO DE DEMOSTRACIÓN · No es el sitio oficial de Belltech · Todos los datos son ficticios';
 
-    var enlaces = BD.menu
-      .map(function (item) {
-        var clases = 'nav__enlace';
-        if (item.destacado) clases += ' nav__enlace--destacado';
-        if (esPaginaActual(item.ruta)) clases += ' nav__enlace--activo';
-        return '<a class="' + clases + '" href="' + BD.raiz + item.ruta + '">' + item.texto + '</a>';
-      })
-      .join('');
-
     var encabezado = document.createElement('header');
     encabezado.className = 'encabezado';
     encabezado.innerHTML =
@@ -100,7 +188,9 @@
       '  <a class="encabezado__logo" href="' + (BD.raiz || './') + '">' + htmlLogo('color') + '</a>' +
       '  <button class="menu-toggle" type="button" aria-label="Abrir menú" aria-expanded="false">&#9776;</button>' +
       '  <nav class="nav" aria-label="Menú principal">' +
-           enlaces +
+           htmlEnlacesFijos(BD.menuInicio) +
+      '    <span id="nav-productos" style="display:contents;"></span>' +
+           htmlEnlacesFijos(BD.menuFin) +
       '    <a class="btn btn--primario btn--chico nav__portal" href="' + BD.raiz + 'portal/">Portal clientes</a>' +
       '  </nav>' +
       '</div>';
@@ -130,27 +220,22 @@
       '<div class="pie__grilla">' +
       '  <div>' +
       '    <div class="pie__logo">' + htmlLogo('blanco') + '</div>' +
-      '    <p>El aliado estratégico que tu empresa necesita para alcanzar su máximo potencial.</p>' +
+      '    <p>Llevamos las soluciones de experiencia del cliente e IA de NICE a las empresas de Latinoamérica.</p>' +
       '    <p class="pie__lema">¡Hazlo simple, hazlo Belltech!</p>' +
       '  </div>' +
       '  <div>' +
-      '    <h4>Soluciones</h4>' +
-      '    <ul>' +
-      '      <li><a href="' + r + 'soluciones/#dpa">Datos y Automatización (DPA)</a></li>' +
-      '      <li><a href="' + r + 'soluciones/#experiencia">Experiencia del Cliente</a></li>' +
-      '      <li><a href="' + r + 'soluciones/#sucursales">Gestión de Sucursales</a></li>' +
-      '      <li><a href="' + r + 'soluciones/#productividad">Productividad</a></li>' +
-      '      <li><a href="' + r + 'nice-cognigy/">NICE Cognigy y CXone</a></li>' +
+      '    <h4>Productos</h4>' +
+      '    <ul id="pie-productos">' +
+      '      <li><a href="' + r + 'producto/">Ver todos</a></li>' +
       '    </ul>' +
       '  </div>' +
       '  <div>' +
-      '    <h4>Empresa</h4>' +
+      '    <h4>Belltech</h4>' +
       '    <ul>' +
-      '      <li><a href="' + r + 'servicios/">Servicios</a></li>' +
-      '      <li><a href="' + r + 'partners/">Partners</a></li>' +
-      '      <li><a href="' + r + 'conocenos/">Conócenos</a></li>' +
+      '      <li><a href="' + (r || './') + '">Inicio</a></li>' +
       '      <li><a href="' + r + 'contacto/">Pedí una demo</a></li>' +
       '      <li><a href="' + r + 'portal/">Portal clientes</a></li>' +
+      '      <li><a href="#" data-accion="abrir-chat">Hablá con ' + BD.esc(BD.agente.nombre) + '</a></li>' +
       '    </ul>' +
       '  </div>' +
       '  <div>' +
@@ -171,6 +256,46 @@
     document.body.appendChild(pie);
   }
 
+  /* ---------- Productos del catálogo en el menú y en el pie ----------
+     Si el catálogo no carga, el sitio sigue funcionando con los enlaces fijos. */
+  function completarConCatalogo() {
+    BD.cargarCatalogo()
+      .then(function (catalogo) {
+        var items = BD.listarProductos(catalogo);
+
+        var nav = document.getElementById('nav-productos');
+        if (nav) {
+          nav.innerHTML = items
+            .map(function (it) {
+              return htmlEnlace(
+                it.producto.nombre,
+                BD.urlProducto(it.marca.id, it.producto.id),
+                esProductoActual(it.marca.id, it.producto.id),
+                it.producto.destacado
+              );
+            })
+            .join('');
+        }
+
+        var pie = document.getElementById('pie-productos');
+        if (pie) {
+          pie.innerHTML =
+            items
+              .map(function (it) {
+                return (
+                  '<li><a href="' + BD.urlProducto(it.marca.id, it.producto.id) + '">' +
+                  BD.esc(it.producto.nombre) + '</a></li>'
+                );
+              })
+              .join('') +
+            '<li><a href="' + BD.raiz + 'producto/">Ver todos</a></li>';
+        }
+      })
+      .catch(function (err) {
+        console.warn('No se pudo cargar el catálogo para el menú:', err);
+      });
+  }
+
   /* ---------- Burbuja del agente IA ----------
      Botón fijo abajo a la derecha en todas las páginas.
      Usa data-accion="abrir-chat", igual que los demás botones del sitio. */
@@ -185,12 +310,12 @@
     burbuja.setAttribute('data-accion', 'abrir-chat');
     burbuja.setAttribute('aria-label', 'Hablar con ' + a.nombre + ', ' + a.rol);
     burbuja.innerHTML =
-      '<span class="burbuja-agente__avatar">' + a.inicial +
+      '<span class="burbuja-agente__avatar">' + BD.esc(a.inicial) +
       '  <span class="burbuja-agente__estado" aria-hidden="true"></span>' +
       '</span>' +
       '<span class="burbuja-agente__texto">' +
-      '  <span class="burbuja-agente__nombre">' + a.nombre + ' · ' + a.rol + '</span>' +
-      '  <span class="burbuja-agente__frase">' + a.frase + '</span>' +
+      '  <span class="burbuja-agente__nombre">' + BD.esc(a.nombre + ' · ' + a.rol) + '</span>' +
+      '  <span class="burbuja-agente__frase">' + BD.esc(a.frase) + '</span>' +
       '</span>';
 
     document.body.appendChild(burbuja);
@@ -237,7 +362,7 @@
         BD.abrirChat();
       } else {
         BD.mostrarAviso(
-          BD.agente.nombre + ', nuestra ' + BD.agente.rol.toLowerCase() + ', estará disponible muy pronto en este sitio.'
+          BD.agente.nombre + ', nuestra ' + BD.agente.rol + ', estará disponible muy pronto en este sitio.'
         );
       }
     });
@@ -249,6 +374,7 @@
     insertarPie();
     insertarBurbujaAgente();
     activarAccionesChat();
+    completarConCatalogo();
   }
 
   if (document.readyState === 'loading') {
