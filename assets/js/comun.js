@@ -23,9 +23,10 @@
   BD.raiz = srcScript.replace(/assets\/js\/comun\.js.*$/, '');
 
   /* ---------- Configuración general ---------- */
+  // Logos alojados en el propio repo: belltech-demo/assets/img/
   BD.logo = {
-    color: 'https://belltech.la/wp-content/uploads/2025/02/logo-belltech.svg',
-    blanco: 'https://belltech.la/wp-content/uploads/2025/02/logo-belltech-white.svg'
+    color: BD.raiz + 'assets/img/logo-belltech.svg',
+    blanco: BD.raiz + 'assets/img/logo-belltech-white.svg'
   };
 
   // Menú principal: para agregar o quitar opciones, editar solo esta lista
@@ -53,6 +54,7 @@
     return actual.indexOf(destino) === 0;
   }
 
+  // Si el logo no carga, se reemplaza por el texto "Belltech"
   function htmlLogo(variante) {
     return (
       '<img src="' + BD.logo[variante] + '" alt="Belltech" ' +
