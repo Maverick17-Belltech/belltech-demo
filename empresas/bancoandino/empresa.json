@@ -1,0 +1,16 @@
+{
+  "id": "bancoandino",
+  "nombre": "Banco Andino S.A. (ficticio)",
+  "nombreCorto": "Banco Andino",
+  "industria": "Banca",
+  "pais": "Argentina",
+  "logo": "",
+  "colores": {
+    "primario": "#0f4c81",
+    "secundario": "#f2a900"
+  },
+  "cognigy": {
+    "etiquetaConocimiento": "empresa-bancoandino"
+  },
+  "activa": true
+}
