@@ -1,0 +1,26 @@
+{
+  "id": "cognigy",
+  "marca": "nice",
+  "nombre": "NICE Cognigy",
+  "categoria": "IA conversacional y AI Agents",
+  "resumen": "Plataforma de IA conversacional para crear agentes de inteligencia artificial que atienden, resuelven y venden en canales de voz y digitales.",
+  "beneficios": [
+    { "icono": "🧠", "titulo": "AI Agents", "texto": "Agentes que conversan de forma natural y ejecutan acciones en tus sistemas." },
+    { "icono": "🎙️", "titulo": "Voz y chat", "texto": "El mismo agente atiende en tu web, mensajería y teléfono." },
+    { "icono": "🤝", "titulo": "Handover y Copilot", "texto": "Derivación a humanos con contexto y asistencia en tiempo real." }
+  ],
+  "funcionalidades": [
+    { "titulo": "Knowledge AI", "texto": "El agente responde a partir de tu propia base de conocimiento." },
+    { "titulo": "Diseño de flujos", "texto": "Editor visual para construir y mantener conversaciones." },
+    { "titulo": "Insights", "texto": "Analítica de cada conversación para mejorar de forma continua." }
+  ],
+  "casosDeUso": [],
+  "integraciones": ["NICE CXone", "Webchat", "WhatsApp", "Telefonía (Voice Gateway)"],
+  "demos": [
+    { "titulo": "Hablá con Bella", "texto": "Bella es nuestra asesora IA creada con NICE Cognigy. Preguntale lo que quieras sobre CXone y Cognigy.", "tipo": "chat" }
+  ],
+  "faq": [],
+  "fuentes": [
+    { "texto": "Documentación oficial de Cognigy", "url": "https://docs.cognigy.com" }
+  ]
+}
