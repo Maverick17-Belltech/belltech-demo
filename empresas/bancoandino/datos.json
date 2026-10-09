@@ -1,0 +1,130 @@
+{
+  "_nota": "Datos ficticios para demostración. No corresponden a ninguna empresa real.",
+  "moneda": "USD",
+  "resumen": {
+    "clienteDesde": "2021",
+    "ejecutivoCuenta": "Carolina Méndez",
+    "emailEjecutivo": "carolina.mendez@belltech.example",
+    "estadoGeneral": "Activo",
+    "segmento": "Banca"
+  },
+  "serviciosContratados": [
+    {
+      "marca": "nice",
+      "producto": "cxone",
+      "nombre": "NICE CXone",
+      "plan": "Plan Omnicanal + WFM + Calidad",
+      "detalle": "Contact center en la nube con voz, WhatsApp, chat web y email.",
+      "licencias": 120,
+      "unidadLicencia": "agentes",
+      "estado": "Activo",
+      "desde": "2021-06-01",
+      "renovacion": "2027-06-01",
+      "costoMensual": 14400
+    },
+    {
+      "marca": "nice",
+      "producto": "cognigy",
+      "nombre": "NICE Cognigy",
+      "plan": "AI Agents · Webchat y WhatsApp",
+      "detalle": "Agente de IA para consultas de tarjetas, préstamos y turnos en sucursal.",
+      "licencias": 1,
+      "unidadLicencia": "proyecto",
+      "estado": "Activo",
+      "desde": "2026-03-01",
+      "renovacion": "2027-03-01",
+      "costoMensual": 3500
+    }
+  ],
+  "consumoMes": {
+    "periodo": "2026-10",
+    "corte": "2026-10-09",
+    "items": [
+      { "producto": "cxone", "metrica": "Minutos de voz", "unidad": "min", "consumo": 98130, "incluido": 400000 },
+      { "producto": "cxone", "metrica": "Interacciones digitales", "unidad": "interacciones", "consumo": 33397, "incluido": 120000 },
+      { "producto": "cxone", "metrica": "Agentes conectados (pico)", "unidad": "agentes", "consumo": 112, "incluido": 120 },
+      { "producto": "cognigy", "metrica": "Conversaciones con IA", "unidad": "conversaciones", "consumo": 17770, "incluido": 80000 }
+    ]
+  },
+  "historial": [
+    { "periodo": "2025-11", "minutosVoz": 373305, "interaccionesDigitales": 86857, "conversacionesIA": 0, "gasto": 23248 },
+    { "periodo": "2025-12", "minutosVoz": 385735, "interaccionesDigitales": 87874, "conversacionesIA": 0, "gasto": 23408 },
+    { "periodo": "2026-01", "minutosVoz": 381363, "interaccionesDigitales": 92342, "conversacionesIA": 0, "gasto": 23400 },
+    { "periodo": "2026-02", "minutosVoz": 363203, "interaccionesDigitales": 95470, "conversacionesIA": 0, "gasto": 23213 },
+    { "periodo": "2026-03", "minutosVoz": 355424, "interaccionesDigitales": 96555, "conversacionesIA": 9569, "gasto": 23513 },
+    { "periodo": "2026-04", "minutosVoz": 350447, "interaccionesDigitales": 98252, "conversacionesIA": 20653, "gasto": 23914 },
+    { "periodo": "2026-05", "minutosVoz": 344704, "interaccionesDigitales": 98010, "conversacionesIA": 30382, "gasto": 24232 },
+    { "periodo": "2026-06", "minutosVoz": 369012, "interaccionesDigitales": 103391, "conversacionesIA": 39586, "gasto": 24945 },
+    { "periodo": "2026-07", "minutosVoz": 363097, "interaccionesDigitales": 99666, "conversacionesIA": 51792, "gasto": 25326 },
+    { "periodo": "2026-08", "minutosVoz": 330005, "interaccionesDigitales": 102421, "conversacionesIA": 57706, "gasto": 25193 },
+    { "periodo": "2026-09", "minutosVoz": 323722, "interaccionesDigitales": 111414, "conversacionesIA": 58084, "gasto": 25222 },
+    { "periodo": "2026-10", "minutosVoz": 98130, "interaccionesDigitales": 33397, "conversacionesIA": 17770, "gasto": 20122, "parcial": true }
+  ],
+  "facturas": [
+    { "numero": "FC-A-0001-00004581", "periodo": "2026-09", "emision": "2026-10-01", "vencimiento": "2026-10-15", "importe": 25222, "estado": "Pendiente" },
+    { "numero": "FC-A-0001-00004472", "periodo": "2026-08", "emision": "2026-09-01", "vencimiento": "2026-09-15", "importe": 25193, "estado": "Pagada" },
+    { "numero": "FC-A-0001-00004365", "periodo": "2026-07", "emision": "2026-08-01", "vencimiento": "2026-08-15", "importe": 25326, "estado": "Pagada" },
+    { "numero": "FC-A-0001-00004251", "periodo": "2026-06", "emision": "2026-07-01", "vencimiento": "2026-07-15", "importe": 24945, "estado": "Pagada" },
+    { "numero": "FC-A-0001-00004139", "periodo": "2026-05", "emision": "2026-06-01", "vencimiento": "2026-06-15", "importe": 24232, "estado": "Pagada" },
+    { "numero": "FC-A-0001-00004027", "periodo": "2026-04", "emision": "2026-05-01", "vencimiento": "2026-05-15", "importe": 23914, "estado": "Pagada" }
+  ],
+  "reportes": [
+    {
+      "id": "cc-2026-09",
+      "producto": "cxone",
+      "titulo": "Desempeño del contact center",
+      "periodo": "2026-09",
+      "descripcion": "Indicadores principales de la operación de atención.",
+      "indicadores": [
+        { "nombre": "Nivel de servicio (80/20)", "valor": "82%" },
+        { "nombre": "Tiempo medio de atención (AHT)", "valor": "4 min 35 s" },
+        { "nombre": "Tasa de abandono", "valor": "3,8%" },
+        { "nombre": "Satisfacción (CSAT)", "valor": "4,3 / 5" }
+      ]
+    },
+    {
+      "id": "ia-2026-09",
+      "producto": "cognigy",
+      "titulo": "Agente de IA",
+      "periodo": "2026-09",
+      "descripcion": "Resultados del agente de IA en webchat y WhatsApp.",
+      "indicadores": [
+        { "nombre": "Conversaciones atendidas", "valor": "58.084" },
+        { "nombre": "Resueltas sin agente humano", "valor": "64%" },
+        { "nombre": "Derivadas a un agente", "valor": "36%" },
+        { "nombre": "Principal motivo de consulta", "valor": "Saldo y límite de tarjeta" }
+      ]
+    },
+    {
+      "id": "calidad-2026-09",
+      "producto": "cxone",
+      "titulo": "Calidad de atención",
+      "periodo": "2026-09",
+      "descripcion": "Evaluaciones de calidad sobre interacciones grabadas.",
+      "indicadores": [
+        { "nombre": "Interacciones evaluadas", "valor": "1.240" },
+        { "nombre": "Puntaje promedio", "valor": "87 / 100" },
+        { "nombre": "Cumplimiento de guion", "valor": "93%" },
+        { "nombre": "Oportunidad de mejora", "valor": "Cierre de la llamada" }
+      ]
+    }
+  ],
+  "tickets": [
+    { "numero": "TK-2026-1184", "asunto": "Alta de 10 licencias de agente para campaña de fin de año", "estado": "En curso", "prioridad": "Media", "fecha": "2026-10-06" },
+    { "numero": "TK-2026-1121", "asunto": "Nuevo motivo de consulta en el agente de IA: aumento de límite", "estado": "Resuelto", "prioridad": "Baja", "fecha": "2026-09-22" }
+  ],
+  "oportunidades": [
+    {
+      "producto": "cognigy",
+      "titulo": "Agente de IA por voz",
+      "motivo": "El 66% de sus contactos siguen siendo llamadas de voz.",
+      "beneficio": "Llevar el mismo agente de IA al teléfono como IVR conversacional."
+    },
+    {
+      "producto": "cxone",
+      "titulo": "Interaction Analytics",
+      "motivo": "Hoy se evalúa una muestra de las interacciones.",
+      "beneficio": "Analizar el 100% de las conversaciones para detectar motivos y sentimiento."
+    }
+  ]
+}
