@@ -1,0 +1,26 @@
+{
+  "id": "cxone",
+  "marca": "nice",
+  "nombre": "NICE CXone",
+  "categoria": "Contact Center en la nube (CCaaS)",
+  "resumen": "Plataforma de contact center en la nube que unifica canales, gestión de la fuerza laboral, analítica e inteligencia artificial en una sola solución.",
+  "beneficios": [
+    { "icono": "🌐", "titulo": "Omnicanalidad", "texto": "Voz, chat, email, mensajería y redes sociales en una única plataforma." },
+    { "icono": "☁️", "titulo": "100% en la nube", "texto": "Escalá según la demanda sin infraestructura propia." },
+    { "icono": "🤖", "titulo": "IA integrada", "texto": "Inteligencia artificial aplicada a la atención, la calidad y la gestión de agentes." }
+  ],
+  "funcionalidades": [
+    { "titulo": "Enrutamiento omnicanal", "texto": "Cada interacción llega al agente o al bot más adecuado." },
+    { "titulo": "Workforce Management", "texto": "Planificación de turnos y dotación según la demanda." },
+    { "titulo": "Analítica e informes", "texto": "Métricas en tiempo real e históricas de toda la operación." }
+  ],
+  "casosDeUso": [],
+  "integraciones": ["NICE Cognigy", "CRM", "WhatsApp"],
+  "demos": [
+    { "titulo": "Demo de CXone", "texto": "Próximamente vas a poder ver CXone en acción desde este sitio.", "tipo": "proximamente" }
+  ],
+  "faq": [],
+  "fuentes": [
+    { "texto": "NICE CXone - sitio oficial", "url": "https://www.nice.com" }
+  ]
+}
