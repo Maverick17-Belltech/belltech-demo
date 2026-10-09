@@ -18,6 +18,7 @@
   --color-fondo-suave: #f4f6fa;
   --color-borde: #e3e7ef;
   --color-blanco: #ffffff;
+  --color-en-linea: #22c55e;
 
   --color-banner-fondo: #ffcc00;
   --color-banner-texto: #1f1f1f;
@@ -496,11 +497,109 @@ p {
   font-size: 0.8rem;
 }
 
-/* ---------- Aviso flotante ---------- */
-.aviso-flotante {
+/* ---------- Burbuja del agente IA (abajo a la derecha) ---------- */
+.burbuja-agente {
   position: fixed;
   right: 20px;
   bottom: 20px;
+  z-index: 1500;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 8px 20px 8px 8px;
+  border: none;
+  border-radius: 999px;
+  background: var(--color-primario);
+  color: var(--color-blanco);
+  font-family: inherit;
+  cursor: pointer;
+  box-shadow: 0 10px 30px rgba(11, 31, 75, 0.35);
+  transition: transform var(--transicion), box-shadow var(--transicion);
+}
+
+.burbuja-agente:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 14px 34px rgba(11, 31, 75, 0.45);
+}
+
+.burbuja-agente:focus-visible {
+  outline: 3px solid var(--color-secundario);
+  outline-offset: 3px;
+}
+
+.burbuja-agente__avatar {
+  position: relative;
+  width: 46px;
+  height: 46px;
+  border-radius: 50%;
+  background: linear-gradient(135deg, var(--color-secundario), var(--color-acento));
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.3rem;
+  font-weight: 800;
+  color: var(--color-blanco);
+  flex-shrink: 0;
+}
+
+.burbuja-agente__avatar::before {
+  content: "";
+  position: absolute;
+  inset: -4px;
+  border-radius: 50%;
+  border: 2px solid var(--color-secundario);
+  animation: burbuja-pulso 2.4s ease-out infinite;
+}
+
+.burbuja-agente__estado {
+  position: absolute;
+  right: 0;
+  bottom: 0;
+  width: 13px;
+  height: 13px;
+  border-radius: 50%;
+  background: var(--color-en-linea);
+  border: 2px solid var(--color-primario);
+}
+
+.burbuja-agente__texto {
+  display: flex;
+  flex-direction: column;
+  text-align: left;
+  line-height: 1.25;
+}
+
+.burbuja-agente__nombre {
+  font-weight: 700;
+  font-size: 0.95rem;
+}
+
+.burbuja-agente__frase {
+  font-size: 0.78rem;
+  opacity: 0.85;
+}
+
+.burbuja-agente--oculta {
+  display: none;
+}
+
+@keyframes burbuja-pulso {
+  0%   { transform: scale(1);   opacity: 0.9; }
+  70%  { transform: scale(1.35); opacity: 0; }
+  100% { transform: scale(1.35); opacity: 0; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .burbuja-agente__avatar::before {
+    animation: none;
+  }
+}
+
+/* ---------- Aviso flotante (arriba de la burbuja) ---------- */
+.aviso-flotante {
+  position: fixed;
+  right: 20px;
+  bottom: 96px;
   z-index: 2000;
   max-width: 340px;
   padding: 14px 18px;
@@ -577,4 +676,22 @@ p {
   .pie__grilla { grid-template-columns: 1fr; }
 
   .banda-cta { padding: 28px; }
+
+  /* Burbuja: solo el círculo para no tapar contenido */
+  .burbuja-agente {
+    padding: 6px;
+    right: 16px;
+    bottom: 16px;
+  }
+
+  .burbuja-agente__texto {
+    display: none;
+  }
+
+  .aviso-flotante {
+    right: 16px;
+    left: 16px;
+    bottom: 84px;
+    max-width: none;
+  }
 }
