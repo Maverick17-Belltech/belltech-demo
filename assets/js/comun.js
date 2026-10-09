@@ -1,7 +1,8 @@
 /* =========================================================
    Belltech Demo - Código común a todas las páginas
    Ruta: belltech-demo/assets/js/comun.js
-   Inserta: banner DEMO, encabezado con menú y pie de página.
+   Inserta: banner DEMO, encabezado con menú, pie de página
+   y la burbuja del agente IA.
    Cada página solo tiene que incluir este script al final del <body>.
    ========================================================= */
 (function () {
@@ -27,6 +28,14 @@
   BD.logo = {
     color: BD.raiz + 'assets/img/logo-belltech.svg',
     blanco: BD.raiz + 'assets/img/logo-belltech-white.svg'
+  };
+
+  // Agente IA: para cambiar el nombre o los textos, editar solo este bloque
+  BD.agente = {
+    nombre: 'Bella',
+    rol: 'Asesora IA de Belltech',
+    frase: '¿Te ayudo? Hablá conmigo',
+    inicial: 'B'
   };
 
   // Menú principal: para agregar o quitar opciones, editar solo esta lista
@@ -162,6 +171,42 @@
     document.body.appendChild(pie);
   }
 
+  /* ---------- Burbuja del agente IA ----------
+     Botón fijo abajo a la derecha en todas las páginas.
+     Usa data-accion="abrir-chat", igual que los demás botones del sitio. */
+  function insertarBurbujaAgente() {
+    if (document.getElementById('burbuja-agente')) return;
+
+    var a = BD.agente;
+    var burbuja = document.createElement('button');
+    burbuja.type = 'button';
+    burbuja.id = 'burbuja-agente';
+    burbuja.className = 'burbuja-agente';
+    burbuja.setAttribute('data-accion', 'abrir-chat');
+    burbuja.setAttribute('aria-label', 'Hablar con ' + a.nombre + ', ' + a.rol);
+    burbuja.innerHTML =
+      '<span class="burbuja-agente__avatar">' + a.inicial +
+      '  <span class="burbuja-agente__estado" aria-hidden="true"></span>' +
+      '</span>' +
+      '<span class="burbuja-agente__texto">' +
+      '  <span class="burbuja-agente__nombre">' + a.nombre + ' · ' + a.rol + '</span>' +
+      '  <span class="burbuja-agente__frase">' + a.frase + '</span>' +
+      '</span>';
+
+    document.body.appendChild(burbuja);
+  }
+
+  // Para el H5: ocultar la burbuja mientras el Webchat está abierto
+  BD.ocultarBurbuja = function () {
+    var b = document.getElementById('burbuja-agente');
+    if (b) b.classList.add('burbuja-agente--oculta');
+  };
+
+  BD.mostrarBurbuja = function () {
+    var b = document.getElementById('burbuja-agente');
+    if (b) b.classList.remove('burbuja-agente--oculta');
+  };
+
   /* ---------- Aviso flotante ---------- */
   BD.mostrarAviso = function (texto) {
     var aviso = document.getElementById('aviso-flotante');
@@ -191,7 +236,9 @@
       if (typeof BD.abrirChat === 'function') {
         BD.abrirChat();
       } else {
-        BD.mostrarAviso('Nuestro agente IA estará disponible muy pronto en este sitio.');
+        BD.mostrarAviso(
+          BD.agente.nombre + ', nuestra ' + BD.agente.rol.toLowerCase() + ', estará disponible muy pronto en este sitio.'
+        );
       }
     });
   }
@@ -200,6 +247,7 @@
   function iniciar() {
     insertarZonaSuperior();
     insertarPie();
+    insertarBurbujaAgente();
     activarAccionesChat();
   }
 
