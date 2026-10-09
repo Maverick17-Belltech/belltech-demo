@@ -5,10 +5,10 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <!-- Evita que Google indexe la réplica como si fuera el sitio oficial -->
   <meta name="robots" content="noindex, nofollow">
-  <title>Belltech | Innovación y tecnología al servicio de tu empresa (Demo)</title>
-  <meta name="description" content="Sitio de demostración de Belltech con NICE Cognigy.">
+  <title>Belltech | Experiencia del cliente con IA de NICE (Demo)</title>
+  <meta name="description" content="Sitio de demostración de Belltech con NICE CXone y NICE Cognigy.">
   <!-- ?v= es la versión: subirla cuando cambie el CSS para evitar la caché -->
-  <link rel="stylesheet" href="assets/css/estilos.css?v=3">
+  <link rel="stylesheet" href="assets/css/estilos.css?v=4">
 </head>
 <body>
   <!-- Banner DEMO, encabezado, pie y burbuja del agente IA los inserta assets/js/comun.js -->
@@ -18,185 +18,102 @@
     <!-- ===================== HERO ===================== -->
     <section class="hero">
       <div class="contenedor">
-        <span class="seccion__antetitulo" style="color:#ffffff;opacity:.85;">Belltech · Latinoamérica</span>
-        <h1>Innovación y tecnología al servicio de tu empresa</h1>
-        <p>Diseñamos e integramos ecosistemas que conectan tus puntos de contacto físicos y digitales. Ahora, con agentes de IA conversacional de NICE Cognigy que atienden, venden y asisten 24/7.</p>
+        <span class="seccion__antetitulo" style="color:#ffffff;opacity:.85;">Belltech · NICE</span>
+        <h1>Contact center en la nube e IA conversacional, en una sola experiencia</h1>
+        <p>Con NICE CXone y NICE Cognigy, tus clientes son atendidos al instante por agentes de IA y, cuando hace falta, por personas que ya conocen todo el contexto. Probalo ahora: hablá con Bella, nuestra asesora IA.</p>
         <div class="botonera">
-          <a class="btn btn--primario" href="soluciones/">Conoce nuestro ecosistema</a>
-          <a class="btn btn--claro" href="#" data-accion="abrir-chat">Hablá con nuestro agente IA</a>
+          <a class="btn btn--primario" href="#" data-accion="abrir-chat">Hablá con Bella</a>
+          <a class="btn btn--claro" href="#productos">Ver productos</a>
         </div>
       </div>
     </section>
 
-    <!-- ===================== PROPUESTA DE VALOR ===================== -->
-    <section class="seccion">
+    <!-- ===================== PRODUCTOS (desde el catálogo) ===================== -->
+    <section class="seccion" id="productos">
       <div class="contenedor">
         <div class="seccion__encabezado">
-          <span class="seccion__antetitulo">Ecosistema Belltech</span>
-          <h2>El aliado estratégico que necesitas</h2>
-          <p class="seccion__bajada">Un amplio rango de soluciones tecnológicas y servicios de alta calidad para optimizar procesos, flujos de trabajo, eficiencia operativa y la experiencia de tus clientes.</p>
+          <span class="seccion__antetitulo">Productos</span>
+          <h2>Todo lo que necesitás para tu experiencia del cliente</h2>
+          <p class="seccion__bajada">Conocé cada producto en detalle o preguntale directamente a Bella.</p>
+        </div>
+        <!-- Las tarjetas las arma assets/js/catalogo.js a partir de catalogo/ -->
+        <div id="home-productos">
+          <p style="text-align:center;">Cargando productos…</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- ===================== CÓMO FUNCIONAN JUNTOS ===================== -->
+    <section class="seccion seccion--suave">
+      <div class="contenedor">
+        <div class="seccion__encabezado">
+          <span class="seccion__antetitulo">CXone + Cognigy</span>
+          <h2>Humanos e IA trabajando juntos</h2>
+          <p class="seccion__bajada">Así se ve una atención de punta a punta con NICE.</p>
         </div>
 
         <div class="grilla grilla--3">
           <div class="tarjeta">
-            <div class="tarjeta__icono">🔗</div>
-            <h3>Conecta</h3>
-            <p>Integramos todos los canales de interacción con tus clientes en un único ecosistema.</p>
+            <span class="etiqueta">1 · NICE Cognigy</span>
+            <h3 style="margin-top:12px;">El agente de IA atiende</h3>
+            <p>Responde al instante en web, mensajería o teléfono, reconoce al cliente y resuelve la mayoría de las consultas.</p>
           </div>
           <div class="tarjeta">
-            <div class="tarjeta__icono">🚀</div>
-            <h3>Potencia</h3>
-            <p>Impulsamos tus canales digitales con automatización, analítica e inteligencia artificial.</p>
+            <span class="etiqueta">2 · NICE CXone</span>
+            <h3 style="margin-top:12px;">Deriva con contexto</h3>
+            <p>Cuando el cliente necesita a una persona, la conversación llega al agente indicado con todo lo conversado.</p>
           </div>
           <div class="tarjeta">
-            <div class="tarjeta__icono">🎯</div>
-            <h3>Personaliza</h3>
-            <p>Hacemos que cada interacción sea única, con presencia local en 8 países de la región.</p>
+            <span class="etiqueta">3 · Copilot</span>
+            <h3 style="margin-top:12px;">El agente humano, asistido</h3>
+            <p>La IA le muestra el resumen, el sentimiento del cliente y le sugiere respuestas en tiempo real.</p>
           </div>
         </div>
       </div>
     </section>
 
-    <!-- ===================== SOLUCIONES ===================== -->
-    <section class="seccion seccion--suave" id="soluciones">
+    <!-- ===================== CONOCÉ A BELLA ===================== -->
+    <section class="seccion seccion--oscura">
       <div class="contenedor">
         <div class="seccion__encabezado">
-          <span class="seccion__antetitulo">Soluciones</span>
-          <h2>Cuatro familias de soluciones, un solo socio</h2>
-          <p class="seccion__bajada">Desde la sucursal hasta el contact center, acompañamos cada punto de la experiencia.</p>
+          <span class="etiqueta etiqueta--acento">Demo en vivo</span>
+          <h2 style="margin-top:12px;">Conocé a Bella, nuestra asesora IA</h2>
+          <p class="seccion__bajada">Bella está construida con NICE Cognigy. Probala y mirá lo que un agente de IA puede hacer por tus clientes.</p>
         </div>
 
-        <div class="grilla grilla--4">
+        <div class="grilla grilla--3">
           <div class="tarjeta">
-            <div class="tarjeta__icono">🤖</div>
-            <h3>Datos y Automatización Inteligente (DPA)</h3>
-            <ul>
-              <li>IA &amp; Automatización</li>
-              <li>RPA</li>
-              <li>Voice of the Customer</li>
-              <li>Speech Analytics</li>
-              <li>Customer Data Platform</li>
-            </ul>
-            <p style="margin-top:16px;"><a href="soluciones/#dpa">Ver más →</a></p>
-          </div>
-
-          <div class="tarjeta tarjeta--destacada">
-            <div class="tarjeta__icono">💬</div>
-            <h3>Experiencia del Cliente</h3>
-            <ul>
-              <li>Asistentes virtuales y Chatbots</li>
-              <li>IVR Conversacional</li>
-              <li>Biometría de Voz</li>
-              <li>Customer Journey Analytics</li>
-              <li>Marketing Automation</li>
-            </ul>
-            <p style="margin-top:16px;"><a href="soluciones/#experiencia">Ver más →</a></p>
-          </div>
-
-          <div class="tarjeta">
-            <div class="tarjeta__icono">🏦</div>
-            <h3>Gestión de Sucursales</h3>
-            <ul>
-              <li>Gestores de Efectivo</li>
-              <li>ATM's y Recicladores</li>
-              <li>Gestores de Filas</li>
-              <li>Kioscos de Autoservicio</li>
-              <li>Cartelería Digital</li>
-            </ul>
-            <p style="margin-top:16px;"><a href="soluciones/#sucursales">Ver más →</a></p>
-          </div>
-
-          <div class="tarjeta">
-            <div class="tarjeta__icono">📞</div>
-            <h3>Productividad</h3>
-            <ul>
-              <li>Contact Center Cloud (CCaaS)</li>
-              <li>Telefonía Corporativa (UCaaS)</li>
-              <li>Workforce Management</li>
-              <li>Mesas de Dinero</li>
-            </ul>
-            <p style="margin-top:16px;"><a href="soluciones/#productividad">Ver más →</a></p>
-          </div>
-        </div>
-      </div>
-    </section>
-
-    <!-- ===================== NICE COGNIGY (DESTACADO) ===================== -->
-    <section class="seccion seccion--oscura" id="nice-cognigy">
-      <div class="contenedor">
-        <div class="seccion__encabezado">
-          <span class="etiqueta etiqueta--acento">NUEVO</span>
-          <h2 style="margin-top:12px;">NICE Cognigy: IA conversacional que transforma la experiencia de tus clientes</h2>
-          <p class="seccion__bajada">Agentes de IA que entienden, responden y resuelven en webchat y voz, integrados con tu contact center y tus sistemas.</p>
-        </div>
-
-        <div class="grilla grilla--4">
-          <div class="tarjeta">
-            <div class="tarjeta__icono">🧠</div>
-            <h3>AI Agents</h3>
-            <p>Agentes que conversan de forma natural, consultan tu base de conocimiento y ejecutan acciones.</p>
+            <div class="tarjeta__icono">💡</div>
+            <h3>Responde todo sobre NICE</h3>
+            <p>Preguntale qué es CXone, cómo funciona Cognigy o cómo se aplica en tu industria.</p>
           </div>
           <div class="tarjeta">
-            <div class="tarjeta__icono">🌐</div>
-            <h3>Webchat y Voz</h3>
-            <p>Un mismo agente atiende en tu sitio web y en tu número telefónico, con la misma calidad.</p>
+            <div class="tarjeta__icono">👤</div>
+            <h3>Te reconoce si sos cliente</h3>
+            <p>Ingresá al Portal clientes y Bella te va a saludar por tu nombre y responder sobre tus servicios y consumos.</p>
           </div>
           <div class="tarjeta">
-            <div class="tarjeta__icono">🤝</div>
-            <h3>Handover con Copilot</h3>
-            <p>Cuando el cliente lo pide, deriva a un agente humano con todo el contexto y asistencia en tiempo real.</p>
-          </div>
-          <div class="tarjeta">
-            <div class="tarjeta__icono">📊</div>
-            <h3>Insights</h3>
-            <p>Cada conversación se mide: intenciones, resultados, sentimiento y oportunidades de mejora.</p>
+            <div class="tarjeta__icono">📅</div>
+            <h3>Agenda una reunión</h3>
+            <p>Si te interesa, Bella toma tus datos y coordina una reunión con un especialista de Belltech.</p>
           </div>
         </div>
 
         <div class="botonera" style="justify-content:center;margin-top:40px;">
-          <a class="btn btn--primario" href="nice-cognigy/">Conocé NICE Cognigy</a>
-          <a class="btn btn--claro" href="#" data-accion="abrir-chat">Probá nuestro agente IA</a>
+          <a class="btn btn--primario" href="#" data-accion="abrir-chat">Hablar con Bella</a>
+          <a class="btn btn--claro" href="portal/">Ingresar al Portal clientes</a>
         </div>
       </div>
     </section>
 
-    <!-- ===================== PARTNERS ===================== -->
-    <section class="seccion" id="partners">
+    <!-- ===================== BELLTECH ===================== -->
+    <section class="seccion">
       <div class="contenedor">
         <div class="seccion__encabezado">
-          <span class="seccion__antetitulo">Partners e integraciones</span>
-          <h2>Integramos a los líderes de la industria</h2>
-          <p class="seccion__bajada">NICE Cognigy se conecta con las plataformas de contact center y telefonía que tu empresa ya usa.</p>
+          <span class="seccion__antetitulo">Por qué Belltech</span>
+          <h2>Te acompañamos de punta a punta</h2>
+          <p class="seccion__bajada">Diseño, implementación, integración y soporte continuo, con equipos locales en toda la región.</p>
         </div>
-
-        <div class="grilla grilla--4">
-          <div class="tarjeta">
-            <h3>NICE</h3>
-            <p>CXone y Cognigy: contact center en la nube e IA conversacional.</p>
-          </div>
-          <div class="tarjeta">
-            <h3>Avaya</h3>
-            <p>Comunicaciones empresariales y contact center.</p>
-          </div>
-          <div class="tarjeta">
-            <h3>British Telecom</h3>
-            <p>Conectividad y servicios de comunicaciones globales.</p>
-          </div>
-          <div class="tarjeta">
-            <h3>AudioCodes</h3>
-            <p>Voz empresarial, SBC y conectividad SIP para canales de voz.</p>
-          </div>
-        </div>
-
-        <div class="botonera" style="justify-content:center;margin-top:32px;">
-          <a class="btn btn--secundario" href="partners/">Ver todos los partners</a>
-        </div>
-      </div>
-    </section>
-
-    <!-- ===================== CIFRAS ===================== -->
-    <section class="seccion seccion--suave" id="cifras">
-      <div class="contenedor">
         <div class="cifras">
           <div>
             <span class="cifra__numero">+650</span>
@@ -218,48 +135,16 @@
       </div>
     </section>
 
-    <!-- ===================== CASOS DE ÉXITO ===================== -->
-    <section class="seccion" id="casos">
-      <div class="contenedor">
-        <div class="seccion__encabezado">
-          <span class="seccion__antetitulo">Casos de éxito</span>
-          <h2>Empresas que ya lo hicieron simple</h2>
-        </div>
-
-        <div class="grilla grilla--3">
-          <div class="tarjeta">
-            <span class="etiqueta">Banca · Argentina</span>
-            <h3 style="margin-top:12px;">BBVA</h3>
-            <p>Destaca la cercanía, la flexibilidad y el soporte de Belltech como un socio que trabaja a la par.</p>
-          </div>
-          <div class="tarjeta">
-            <span class="etiqueta">Banca · Colombia</span>
-            <h3 style="margin-top:12px;">Bancolombia</h3>
-            <p>Más de 4.900 cajeros automáticos gestionados con una solución multivendor que centraliza la operación.</p>
-          </div>
-          <div class="tarjeta">
-            <span class="etiqueta">Tecnología · Paraguay</span>
-            <h3 style="margin-top:12px;">ITTI</h3>
-            <p>Reconoce a Belltech por su calidad, rapidez y enfoque en el cliente.</p>
-          </div>
-        </div>
-
-        <div class="botonera" style="justify-content:center;margin-top:32px;">
-          <a class="btn btn--secundario" href="conocenos/#casos">Ver más casos</a>
-        </div>
-      </div>
-    </section>
-
     <!-- ===================== LLAMADO A LA ACCIÓN ===================== -->
     <section class="seccion seccion--suave">
       <div class="contenedor">
         <div class="banda-cta">
           <div>
-            <h2>¿Querés ver NICE Cognigy en acción?</h2>
-            <p>Conversá con nuestro agente IA o agendá una demo con un especialista.</p>
+            <h2>¿Querés ver NICE en acción en tu empresa?</h2>
+            <p>Hablá con Bella o agendá una demo personalizada con un especialista.</p>
           </div>
           <div class="botonera">
-            <a class="btn btn--claro" href="#" data-accion="abrir-chat">Hablá con el agente IA</a>
+            <a class="btn btn--claro" href="#" data-accion="abrir-chat">Hablar con Bella</a>
             <a class="btn btn--acento" href="contacto/">Pedí una demo</a>
           </div>
         </div>
@@ -268,7 +153,12 @@
 
   </main>
 
+  <!-- Orden obligatorio: primero comun.js, después catalogo.js -->
   <!-- ?v= es la versión: subirla cuando cambie el JS para evitar la caché -->
-  <script src="assets/js/comun.js?v=3"></script>
+  <script src="assets/js/comun.js?v=4"></script>
+  <script src="assets/js/catalogo.js?v=2"></script>
+  <script>
+    BelltechDemo.renderTarjetasProductos(document.getElementById('home-productos'));
+  </script>
 </body>
 </html>
