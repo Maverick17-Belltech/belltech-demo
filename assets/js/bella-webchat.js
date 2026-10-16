@@ -12,6 +12,10 @@
        { belltech: { tipo: "cliente", nombre, empresa, servicios, consumos, ... } }
      El flujo de Cognigy lo guarda en context.belltech (nodo Code
      "Guardar datos del sitio") y Bella lo recibe por Short-Term Memory Injection.
+   - Escucha los mensajes que llegan de Cognigy: si traen
+       { belltechAccion: { tipo: "ampliacion_licencias", ... } }
+     (cuando el cliente confirma una ampliación con Bella), la guarda con
+     BD.guardarAmpliacion y el portal se actualiza en el momento.
    ========================================================= */
 (function () {
   'use strict';
@@ -107,15 +111,26 @@
     var lista = function (v) { return Array.isArray(v) ? v : []; };
 
     var servicios = lista(datos.serviciosContratados).map(function (s) {
+      var cantidad = Number(s.licencias) || 0;
+      var costo = Number(s.costoMensual) || 0;
       return {
+        id: s.producto,
         producto: s.nombre,
         plan: s.plan,
         detalle: s.detalle,
         licencias: s.licencias + ' ' + s.unidadLicencia,
+        licenciasCantidad: cantidad,
+        unidadLicencia: s.unidadLicencia,
         estado: s.estado,
         clienteDesde: s.desde,
         renovacion: s.renovacion,
-        costoMensual: (datos.moneda || 'USD') + ' ' + s.costoMensual
+        costoMensual: (datos.moneda || 'USD') + ' ' + s.costoMensual,
+        costoMensualNumero: costo,
+        // Precio por licencia: solo tiene sentido para licencias por agente
+        precioUnitario: s.unidadLicencia === 'agentes' && cantidad ? Math.round((costo / cantidad) * 100) / 100 : null,
+        ampliacionReciente: s.ampliacion
+          ? 'Ampliado de ' + s.licenciasOriginales + ' a ' + s.licencias + ' ' + s.unidadLicencia + ' (orden ' + s.ampliacion.orden + ')'
+          : null
       };
     });
 
@@ -223,6 +238,40 @@
     });
   }
 
+  /* ---------- Acciones que llegan desde Cognigy ----------
+     Hoy: ampliación de licencias confirmada por el cliente con Bella.
+     Se guarda para la empresa de la sesión actual (no se confía en la empresa
+     que venga en el mensaje). */
+  function procesarAccion(data) {
+    var accion = data && data.belltechAccion;
+    if (!accion || accion.tipo !== 'ampliacion_licencias') return;
+
+    var sesion = BD.obtenerSesion();
+    if (!sesion || !sesion.empresaId) return;
+
+    var guardado = BD.guardarAmpliacion(sesion.empresaId, {
+      producto: String(accion.producto || ''),
+      productoNombre: String(accion.productoNombre || ''),
+      licenciasAnteriores: Number(accion.licenciasAnteriores) || 0,
+      licenciasAdicionales: Number(accion.licenciasAdicionales) || 0,
+      licenciasNuevas: Number(accion.licenciasNuevas) || 0,
+      costoAnterior: Number(accion.costoAnterior) || 0,
+      costoMensualNuevo: Number(accion.costoMensualNuevo) || 0,
+      precioUnitario: Number(accion.precioUnitario) || 0,
+      descuento: Number(accion.descuento) || 0,
+      orden: String(accion.orden || ''),
+      linkOrden: String(accion.linkOrden || ''),
+      fecha: new Date().toISOString()
+    });
+
+    if (guardado) {
+      BD.mostrarAviso(
+        'Listo: ' + (accion.productoNombre || 'tu servicio') + ' ahora tiene ' +
+        accion.licenciasNuevas + ' licencias. Ya lo ves actualizado en tu portal.'
+      );
+    }
+  }
+
   /* ---------- Carga del Webchat ---------- */
 
   function cargarScript(url) {
@@ -277,6 +326,10 @@
               // Conversación nueva: hay que volver a enviar los datos
               estado.contextoEnviado = false;
               enviarContexto();
+              break;
+            case 'webchat/incoming-message':
+              // Mensajes de Cognigy: algunos traen acciones para el sitio
+              procesarAccion(evento.payload && evento.payload.data);
               break;
           }
         });
