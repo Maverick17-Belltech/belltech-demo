@@ -5,6 +5,9 @@
    - Con sesión: muestra el panel de la empresa
      (servicios, consumos, historial, facturas, reportes,
      tickets y recomendaciones).
+   - Si el cliente amplía licencias con Bella (H9), el panel se vuelve a
+     dibujar solo con los datos nuevos, y aparece el botón
+     "Restablecer datos de la demo" para volver a los valores originales.
    Requiere que assets/js/comun.js se cargue ANTES.
    Estilos del panel: assets/css/portal.css
    ========================================================= */
@@ -190,6 +193,7 @@
       .then(function (r) {
         vistaPanel.innerHTML = htmlPanel(sesion, r[0], r[1]);
         activarCerrarSesion();
+        activarRestablecer(sesion);
         activarTooltips();
       })
       .catch(function (err) {
@@ -202,6 +206,16 @@
           '</div></section>';
         activarCerrarSesion();
       });
+  }
+
+  // Vuelve los datos de la demo a los valores originales (borra las ampliaciones)
+  function activarRestablecer(sesion) {
+    var boton = document.getElementById('boton-restablecer-demo');
+    if (!boton) return;
+    boton.addEventListener('click', function () {
+      BD.borrarAmpliaciones(sesion.empresaId);
+      BD.mostrarAviso('Listo: los datos de la demo volvieron a los valores originales.');
+    });
   }
 
   function activarCerrarSesion() {
@@ -261,11 +275,29 @@
             ' · Renueva ' + esc(fecha(s.renovacion)) +
             ' · ' + esc(dinero(s.costoMensual, datos.moneda)) + ' / mes' +
             '</p>' +
+            htmlAmpliacion(s, datos) +
             '</div>'
           );
         })
         .join('') +
       '</div>'
+    );
+  }
+
+  // Aviso dentro de la tarjeta del servicio cuando tuvo una ampliación (H9)
+  function htmlAmpliacion(s, datos) {
+    if (!s.ampliacion) return '';
+    var a = s.ampliacion;
+    var link = /^https:\/\//.test(a.linkOrden || '') ? a.linkOrden : '';
+    return (
+      '<p class="ampliacion-nota" style="margin:12px 0 0;padding:10px 12px;border-radius:8px;' +
+      'background:#e8f7ee;color:#14532d;font-size:.9rem;">' +
+      '<strong>✔ Ampliación aplicada:</strong> de ' + esc(numero(s.licenciasOriginales)) + ' a ' +
+      esc(numero(s.licencias)) + ' ' + esc(s.unidadLicencia) +
+      ' · Abono anterior ' + esc(dinero(s.costoOriginal, datos.moneda)) +
+      (a.orden ? ' · Orden ' + esc(a.orden) : '') +
+      (link ? ' · <a href="' + esc(link) + '" target="_blank" rel="noopener">Ver orden</a>' : '') +
+      '</p>'
     );
   }
 
@@ -557,6 +589,9 @@
       '      </div>' +
       '      <div class="botonera">' +
       '        <a class="btn btn--claro" href="#" data-accion="abrir-chat">Preguntale a ' + esc(BD.agente.nombre) + '</a>' +
+      (lista(datos.ampliaciones).length
+        ? '        <button id="boton-restablecer-demo" class="btn btn--claro" type="button">Restablecer datos de la demo</button>'
+        : '') +
       '        <button id="boton-cerrar-sesion" class="btn btn--acento" type="button">Cerrar sesión</button>' +
       '      </div>' +
       '    </div>' +
@@ -586,7 +621,12 @@
   }
 
   /* ---------- Tooltip de los gráficos ---------- */
+  var tooltipsActivos = false;
+
   function activarTooltips() {
+    // vistaPanel no se reemplaza al redibujar, así que alcanza con activarlo una vez
+    if (tooltipsActivos) return;
+    tooltipsActivos = true;
     var tip = document.createElement('div');
     tip.className = 'tooltip-grafico';
     tip.hidden = true;
@@ -615,6 +655,11 @@
   var sesion = BD.obtenerSesion();
   if (sesion) {
     mostrarPanel(sesion);
+    // Ampliación confirmada con Bella o datos restablecidos: se redibuja el panel
+    window.addEventListener('belltechdemo:datos-actualizados', function () {
+      var actual = BD.obtenerSesion();
+      if (actual) mostrarPanel(actual);
+    });
   } else {
     mostrarLogin();
   }
