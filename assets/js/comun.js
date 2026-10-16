@@ -30,7 +30,7 @@
 
   // Versión de los scripts que carga comun.js (subirla cuando cambien, para evitar la caché)
   BD.versiones = {
-    bellaWebchat: '1'
+    bellaWebchat: '2'
   };
 
   // Logos alojados en el propio repo: belltech-demo/assets/img/
@@ -236,11 +236,96 @@
       });
   };
 
-  // Datos de la empresa del usuario logueado (empresas/<id>/datos.json)
+  /* ---------- Ampliaciones de licencias (H9) ----------
+     Cuando un cliente confirma con Bella una ampliación de licencias, el chat
+     avisa al sitio (assets/js/bella-webchat.js) y la ampliación se guarda en
+     localStorage de este navegador, por empresa. Al cargar los datos de la
+     empresa se aplica encima de datos.json: licencias, abono mensual y consumo.
+     Es una simulación de demo: en producción esto lo haría el CRM o la facturación.
+     Estructura guardada: { "<empresaId>": [ { producto, licenciasAnteriores,
+       licenciasNuevas, costoAnterior, costoMensualNuevo, orden, fecha, ... } ] } */
+  var CLAVE_AMPLIACIONES = 'belltechDemo.ampliaciones';
+
+  function leerAmpliaciones() {
+    try {
+      var texto = window.localStorage.getItem(CLAVE_AMPLIACIONES);
+      var todo = texto ? JSON.parse(texto) : {};
+      return todo && typeof todo === 'object' ? todo : {};
+    } catch (e) {
+      return {};
+    }
+  }
+
+  BD.obtenerAmpliaciones = function (empresaId) {
+    var lista = leerAmpliaciones()[empresaId];
+    return Array.isArray(lista) ? lista : [];
+  };
+
+  BD.guardarAmpliacion = function (empresaId, ampliacion) {
+    if (!BD.idValido(empresaId) || !ampliacion) return false;
+    var nuevas = Number(ampliacion.licenciasNuevas);
+    var costo = Number(ampliacion.costoMensualNuevo);
+    if (!BD.idValido(ampliacion.producto) || !(nuevas > 0) || !(costo > 0)) return false;
+    try {
+      var todo = leerAmpliaciones();
+      var lista = Array.isArray(todo[empresaId]) ? todo[empresaId] : [];
+      lista.push(ampliacion);
+      todo[empresaId] = lista;
+      window.localStorage.setItem(CLAVE_AMPLIACIONES, JSON.stringify(todo));
+      window.dispatchEvent(new CustomEvent('belltechdemo:datos-actualizados', { detail: ampliacion }));
+      return true;
+    } catch (e) {
+      console.warn('No se pudo guardar la ampliación en este navegador.', e);
+      return false;
+    }
+  };
+
+  BD.borrarAmpliaciones = function (empresaId) {
+    try {
+      var todo = leerAmpliaciones();
+      delete todo[empresaId];
+      window.localStorage.setItem(CLAVE_AMPLIACIONES, JSON.stringify(todo));
+      window.dispatchEvent(new CustomEvent('belltechdemo:datos-actualizados', { detail: null }));
+    } catch (e) { /* se ignora */ }
+  };
+
+  // Aplica las ampliaciones guardadas sobre una copia de datos.json
+  BD.aplicarAmpliaciones = function (datos, empresaId) {
+    var ampliaciones = BD.obtenerAmpliaciones(empresaId);
+    if (!ampliaciones.length || !datos) return datos;
+
+    var copia = JSON.parse(JSON.stringify(datos));
+    var servicios = Array.isArray(copia.serviciosContratados) ? copia.serviciosContratados : [];
+    var items = copia.consumoMes && Array.isArray(copia.consumoMes.items) ? copia.consumoMes.items : [];
+
+    ampliaciones.forEach(function (a) {
+      servicios.forEach(function (s) {
+        if (s.producto !== a.producto) return;
+        if (s.licenciasOriginales === undefined) s.licenciasOriginales = s.licencias;
+        if (s.costoOriginal === undefined) s.costoOriginal = s.costoMensual;
+        s.licencias = Number(a.licenciasNuevas);
+        s.costoMensual = Number(a.costoMensualNuevo);
+        s.ampliacion = a;
+      });
+      items.forEach(function (it) {
+        if (it.producto === a.producto && it.unidad === 'agentes') {
+          it.incluido = Number(a.licenciasNuevas);
+        }
+      });
+    });
+
+    copia.ampliaciones = ampliaciones;
+    return copia;
+  };
+
+  // Datos de la empresa del usuario logueado (empresas/<id>/datos.json),
+  // con las ampliaciones de licencias de la demo ya aplicadas
   BD.cargarDatosEmpresa = function () {
     var s = BD.obtenerSesion();
     if (!s || !BD.idValido(s.empresaId)) return Promise.reject(new Error('No hay una sesión iniciada.'));
-    return BD.cargarJSON('empresas/' + s.empresaId + '/datos.json');
+    return BD.cargarJSON('empresas/' + s.empresaId + '/datos.json').then(function (datos) {
+      return BD.aplicarAmpliaciones(datos, s.empresaId);
+    });
   };
 
   /* ---------- Utilidades de navegación ---------- */
