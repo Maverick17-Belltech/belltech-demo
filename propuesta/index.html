@@ -1,0 +1,224 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <!-- =========================================================
+       Belltech Demo - Orden de ampliación de licencias (H9)
+       Ruta: belltech-demo/propuesta/index.html
+       La abre el link del mail que envía Bella cuando el cliente
+       confirma una ampliación. Los datos vienen en la dirección:
+         propuesta/#d=<JSON codificado con encodeURIComponent>
+       El botón "Descargar PDF" usa la impresión del navegador
+       (Guardar como PDF). Documento de demostración: no es una factura.
+       ========================================================= -->
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Orden de ampliación de licencias | Belltech Demo</title>
+  <meta name="robots" content="noindex">
+  <link rel="stylesheet" href="../assets/css/estilos.css?v=5">
+  <style>
+    .orden {
+      max-width: 860px;
+      margin: 0 auto;
+      background: #fff;
+      border: 1px solid #e3e8f0;
+      border-radius: 12px;
+      padding: 40px;
+      box-shadow: 0 8px 24px rgba(11, 31, 75, 0.06);
+    }
+    .orden__encabezado {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-start;
+      gap: 24px;
+      flex-wrap: wrap;
+      border-bottom: 3px solid var(--color-primario);
+      padding-bottom: 20px;
+      margin-bottom: 24px;
+    }
+    .orden__encabezado img { height: 40px; }
+    .orden__titulo { text-align: right; }
+    .orden__titulo h1 { font-size: 1.4rem; margin: 0 0 6px; color: var(--color-primario); }
+    .orden__titulo p { margin: 0; font-size: .9rem; color: #5b6475; }
+    .orden__partes {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 16px 32px;
+      margin-bottom: 24px;
+      font-size: .92rem;
+    }
+    .orden__partes h2 {
+      font-size: .78rem;
+      text-transform: uppercase;
+      letter-spacing: .06em;
+      color: #5b6475;
+      margin: 0 0 6px;
+    }
+    .orden__partes p { margin: 0; line-height: 1.5; }
+    .orden table { width: 100%; border-collapse: collapse; font-size: .92rem; }
+    .orden th, .orden td { padding: 10px 8px; border-bottom: 1px solid #e3e8f0; text-align: left; }
+    .orden th { background: #f4f6fa; color: var(--color-primario); font-size: .8rem; text-transform: uppercase; letter-spacing: .04em; }
+    .orden .num { text-align: right; white-space: nowrap; }
+    .orden .descuento td { color: #15803d; }
+    .orden .total td { font-weight: 700; font-size: 1.05rem; color: var(--color-primario); border-top: 2px solid var(--color-primario); }
+    .orden .delta td { font-weight: 600; background: #fff7ed; }
+    .orden__nota {
+      margin-top: 24px;
+      font-size: .82rem;
+      color: #5b6475;
+      line-height: 1.5;
+      border-top: 1px dashed #cbd2de;
+      padding-top: 14px;
+    }
+    .orden__sello {
+      display: inline-block;
+      margin-top: 8px;
+      padding: 4px 10px;
+      border: 2px solid #15803d;
+      color: #15803d;
+      border-radius: 6px;
+      font-weight: 700;
+      font-size: .85rem;
+      letter-spacing: .04em;
+    }
+    .orden-acciones { max-width: 860px; margin: 0 auto 20px; display: flex; gap: 12px; flex-wrap: wrap; }
+    @media (max-width: 640px) {
+      .orden { padding: 22px 16px; }
+      .orden__partes { grid-template-columns: 1fr; }
+      .orden__titulo { text-align: left; }
+    }
+    @page { size: A4; margin: 14mm; }
+    @media print {
+      .zona-superior, #pie-demo, .pie, #burbuja-agente, #aviso-flotante,
+      .orden-acciones, [id^="cognigy"], .webchat-root, .webchat-toggle-button { display: none !important; }
+      body { background: #fff !important; }
+      .seccion { padding: 0 !important; }
+      .orden { border: none; box-shadow: none; padding: 0; max-width: none; }
+    }
+  </style>
+</head>
+<body>
+
+  <main>
+    <section class="seccion">
+      <div class="contenedor">
+        <div class="orden-acciones">
+          <button id="boton-pdf" class="btn btn--primario" type="button">Descargar PDF</button>
+          <a class="btn btn--secundario" href="../portal/">Ir a mi portal</a>
+        </div>
+        <div id="orden-contenido" class="orden">
+          <p>Cargando la orden…</p>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <script src="../assets/js/comun.js?v=6"></script>
+  <script>
+    (function () {
+      'use strict';
+
+      var BD = window.BelltechDemo;
+      var esc = BD.esc;
+      var contenedor = document.getElementById('orden-contenido');
+
+      function numero(n, decimales) {
+        return new Intl.NumberFormat('es-AR', {
+          minimumFractionDigits: decimales || 0,
+          maximumFractionDigits: decimales || 0
+        }).format(Number(n) || 0);
+      }
+
+      function dinero(n, moneda) {
+        return (moneda || 'USD') + ' ' + numero(n, 2);
+      }
+
+      // Lee los datos de la dirección: #d=<JSON>
+      function leerDatos() {
+        var hash = window.location.hash || '';
+        var i = hash.indexOf('d=');
+        if (i === -1) return null;
+        try {
+          var d = JSON.parse(decodeURIComponent(hash.slice(i + 2)));
+          return d && typeof d === 'object' ? d : null;
+        } catch (e) {
+          return null;
+        }
+      }
+
+      function mostrarError() {
+        contenedor.innerHTML =
+          '<h1 style="font-size:1.3rem;">No pudimos leer la orden</h1>' +
+          '<p>El link está incompleto o fue modificado. Abrilo de nuevo desde el mail que te envió Bella.</p>';
+      }
+
+      var d = leerDatos();
+      if (!d || !d.orden) {
+        mostrarError();
+      } else {
+        var moneda = d.moneda || 'USD';
+        var licAnt = Number(d.licenciasAnteriores) || 0;
+        var licAdd = Number(d.licenciasAdicionales) || 0;
+        var licNuevas = Number(d.licenciasNuevas) || (licAnt + licAdd);
+        var precio = Number(d.precioUnitario) || 0;
+        var desc = Number(d.descuento) || 0;
+        var costoAnt = Number(d.costoAnterior) || 0;
+        var bruto = licAdd * precio;
+        var ahorro = Number(d.ahorroMensual) || Math.round(bruto * desc) / 100;
+        var costoAdd = Number(d.costoAdicional) || (bruto - ahorro);
+        var costoNuevo = Number(d.costoMensualNuevo) || (costoAnt + costoAdd);
+        var unidad = d.unidad || 'licencias';
+
+        document.title = 'Orden ' + d.orden + ' | Belltech Demo';
+
+        contenedor.innerHTML =
+          '<div class="orden__encabezado">' +
+          '  <img src="' + esc(BD.logo.color) + '" alt="Belltech">' +
+          '  <div class="orden__titulo">' +
+          '    <h1>Orden de ampliación de licencias</h1>' +
+          '    <p>Nº <strong>' + esc(d.orden) + '</strong></p>' +
+          '    <p>Fecha: ' + esc(d.fecha || '') + '</p>' +
+          '    <span class="orden__sello">APROBADA POR EL CLIENTE</span>' +
+          '  </div>' +
+          '</div>' +
+
+          '<div class="orden__partes">' +
+          '  <div><h2>Cliente</h2><p><strong>' + esc(d.empresa || '') + '</strong><br>' +
+               esc(d.contacto || '') + '<br>' + esc(d.email || '') + '</p></div>' +
+          '  <div><h2>Proveedor</h2><p><strong>Belltech</strong><br>Ejecutivo de cuenta: ' +
+               esc(d.ejecutivo || '') + '<br>Negociado y cerrado por Bella (NICE Cognigy)</p></div>' +
+          '</div>' +
+
+          '<table>' +
+          '  <thead><tr><th>Concepto</th><th class="num">Cantidad</th><th class="num">Precio unitario</th><th class="num">Subtotal mensual</th></tr></thead>' +
+          '  <tbody>' +
+          '    <tr><td>' + esc(d.productoNombre || '') + ' · ' + esc(unidad) + ' actuales</td>' +
+          '      <td class="num">' + numero(licAnt) + '</td><td class="num">' + dinero(precio, moneda) + '</td>' +
+          '      <td class="num">' + dinero(costoAnt, moneda) + '</td></tr>' +
+          '    <tr><td>' + esc(d.productoNombre || '') + ' · ' + esc(unidad) + ' adicionales</td>' +
+          '      <td class="num">' + numero(licAdd) + '</td><td class="num">' + dinero(precio, moneda) + '</td>' +
+          '      <td class="num">' + dinero(bruto, moneda) + '</td></tr>' +
+          (desc > 0
+            ? '    <tr class="descuento"><td>Descuento negociado sobre ' + esc(unidad) + ' adicionales (' + numero(desc, 0) + '%)</td>' +
+              '      <td class="num"></td><td class="num"></td><td class="num">− ' + dinero(ahorro, moneda) + '</td></tr>'
+            : '') +
+          '    <tr class="total"><td>Nuevo abono mensual (' + numero(licNuevas) + ' ' + esc(unidad) + ')</td>' +
+          '      <td class="num"></td><td class="num"></td><td class="num">' + dinero(costoNuevo, moneda) + '</td></tr>' +
+          '    <tr class="delta"><td>Diferencia mensual respecto del abono actual</td>' +
+          '      <td class="num"></td><td class="num"></td><td class="num">+ ' + dinero(costoNuevo - costoAnt, moneda) + '</td></tr>' +
+          '  </tbody>' +
+          '</table>' +
+
+          '<p class="orden__nota">' +
+          'Las nuevas licencias quedan habilitadas desde la fecha de esta orden y se facturan a partir del próximo período. ' +
+          'Valores mensuales sin impuestos. ' +
+          '<strong>Documento de demostración con datos ficticios: no es una factura ni tiene validez comercial.</strong>' +
+          '</p>';
+      }
+
+      document.getElementById('boton-pdf').addEventListener('click', function () {
+        window.print();
+      });
+    })();
+  </script>
+</body>
+</html>
